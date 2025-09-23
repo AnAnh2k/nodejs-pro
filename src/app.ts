@@ -13,6 +13,9 @@ app.set("views", __dirname + "/views");
 //config routes
 webRoute(app);
 
+//config static files
+app.use(express.static("public"));
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
