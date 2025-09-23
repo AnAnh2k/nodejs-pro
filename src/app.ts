@@ -1,10 +1,16 @@
 import express from "express";
+import "dotenv/config";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+//config view engine
+app.set("view engine", "ejs");
+// app.set("views", "./src/views");
+app.set("views", __dirname + "/views");
+
 app.get("/", (req, res) => {
-  res.send("Hello, World! An Đức Anh");
+  res.render("home");
 });
 
 app.get("/ada", (req, res) => {
