@@ -3,13 +3,13 @@ const router = express.Router();
 import {
   getHomePage,
   getCreateUserPage,
-  postCreateUserPage,
+  postCreateUser,
 } from "../controllers/user.controller";
 
 const webRoute = (app: Express) => {
   router.get("/", getHomePage);
 
-  router.post("/handel-create-user", postCreateUserPage);
+  router.post("/handel-create-user", postCreateUser);
   router.get("/create-user", getCreateUserPage);
 
   router.get("/ada", (req, res) => {

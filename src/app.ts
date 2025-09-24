@@ -10,11 +10,15 @@ app.set("view engine", "ejs");
 // app.set("views", "./src/views");
 app.set("views", __dirname + "/views");
 
-//config routes
-webRoute(app);
+//config request body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //config static files
 app.use(express.static("public"));
+
+//config routes
+webRoute(app);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
