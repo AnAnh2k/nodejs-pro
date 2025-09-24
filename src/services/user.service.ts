@@ -37,4 +37,22 @@ const getAllUsers = async () => {
     return [];
   }
 };
-export { handelCreateUser, getAllUsers };
+const handelDeleteUser = async (id: string) => {
+  //get all users from database
+  const connection = await getConnection();
+
+  // A simple SELECT query
+  try {
+    const sql = "DELETE FROM `users` WHERE `id` = ? LIMIT 1";
+    const values = [id];
+
+    const [result, fields] = await connection.execute(sql, values);
+
+    return result;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+
+export { handelCreateUser, getAllUsers, handelDeleteUser };
