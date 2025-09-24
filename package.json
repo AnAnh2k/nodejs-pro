@@ -16,7 +16,8 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "nodemon",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start:debug": "nodemon --inspect=9229 -e ts,tsx --exec node -r ts-node/register ./src/app.ts"
   },
   "nodemonConfig": {
     "watch": [
