@@ -1,6 +1,6 @@
 import { log } from "console";
 import { Request, Response } from "express";
-import { getAllUsers, handelCreateUser } from "../services/user.service";
+import { getAllUsers, handelCreateUser } from "services/user.service";
 
 const getHomePage = async (req: Request, res: Response) => {
   //get user

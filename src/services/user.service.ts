@@ -1,5 +1,5 @@
 import { name } from "ejs";
-import getConnection from "../config/database";
+import getConnection from "config/database";
 import { Connection } from "./../../node_modules/mysql2/promise.d";
 import { log } from "console";
 
