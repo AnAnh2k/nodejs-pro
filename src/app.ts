@@ -21,7 +21,6 @@ app.use(express.static("public"));
 //config routes
 webRoute(app);
 
-getConnection();
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
