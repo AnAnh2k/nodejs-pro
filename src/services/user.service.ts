@@ -56,7 +56,7 @@ const handelDeleteUser = async (id: string) => {
   }
 };
 
-const getlUserByID = async (id: string) => {
+const getUserByID = async (id: string) => {
   //get all users from database
   const connection = await getConnection();
 
@@ -73,5 +73,30 @@ const getlUserByID = async (id: string) => {
     return [];
   }
 };
+const updateUserByID = async (
+  id: string,
+  fullName: string,
+  email: string,
+  address: string
+) => {
+  const connection = await getConnection();
+  try {
+    const sql =
+      "UPDATE `users` SET `name` = ?, `email` = ?, `address` = ? WHERE `id` = ? LIMIT 1";
+    const values = [fullName, email, address, id];
 
-export { handleCreateUser, getAllUsers, handelDeleteUser, getlUserByID };
+    const [result] = await connection.execute(sql, values);
+    return result;
+  } catch (err) {
+    console.error("Update user error:", err);
+    return [];
+  }
+};
+
+export {
+  handleCreateUser,
+  getAllUsers,
+  handelDeleteUser,
+  getUserByID,
+  updateUserByID,
+};

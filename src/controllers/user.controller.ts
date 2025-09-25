@@ -3,7 +3,8 @@ import {
   getAllUsers,
   handleCreateUser,
   handelDeleteUser,
-  getlUserByID,
+  getUserByID,
+  updateUserByID,
 } from "../services/user.service"; // <-- Sửa lại đường dẫn này
 import { log } from "console";
 
@@ -33,9 +34,17 @@ const postDeleteUser = async (req: Request, res: Response) => {
 
 const getViewUser = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await getlUserByID(id);
-  log(user);
+  const user = await getUserByID(id);
+
   return res.render("view-user", { user: user[0] }); // hoặc res.status(400).send("Missing user id");
+};
+const postUpdateUser = async (req: Request, res: Response) => {
+  const { id, fullName, email, address } = req.body;
+  //update user by id
+  log("Updating user:", { id, fullName, email, address });
+  const user = await updateUserByID(id, fullName, email, address);
+
+  return res.redirect("/");
 };
 
 export {
@@ -44,4 +53,5 @@ export {
   postCreateUser,
   postDeleteUser,
   getViewUser,
+  postUpdateUser,
 };
