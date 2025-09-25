@@ -50,7 +50,7 @@
               <td><%= user.address %></td>
               <td>
                 <div style="display: flex; gap: 10px">
-                  <form action="/handle-view-user/<%= user.id %>" method="post">
+                  <form action="/view-user/<%= user.id %>" method="get">
                     <Button class="btn btn-warning" type="submit">View</Button>
                   </form>
                   <form

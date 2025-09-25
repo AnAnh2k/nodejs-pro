@@ -5,13 +5,18 @@ import {
   getCreateUserPage,
   postCreateUser,
   postDeleteUser,
+  getViewUser,
 } from "../controllers/user.controller";
+import { log } from "console";
+import { get } from "http";
 
 const webRoute = (app: Express) => {
   router.get("/", getHomePage);
 
   router.post("/handle-delete-user/:id", postDeleteUser);
-  router.post("/handel-create-user", postCreateUser);
+
+  router.get("/view-user/:id", getViewUser);
+  router.post("/handle-create-user", postCreateUser);
   router.get("/create-user", getCreateUserPage);
 
   app.use("/", router);

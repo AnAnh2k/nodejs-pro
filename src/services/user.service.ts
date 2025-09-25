@@ -3,7 +3,7 @@ import getConnection from "config/database";
 import { Connection } from "./../../node_modules/mysql2/promise.d";
 import { log } from "console";
 
-const handelCreateUser = async (
+const handleCreateUser = async (
   fullname: string,
   email: string,
   address: string
@@ -37,6 +37,7 @@ const getAllUsers = async () => {
     return [];
   }
 };
+
 const handelDeleteUser = async (id: string) => {
   //get all users from database
   const connection = await getConnection();
@@ -55,4 +56,22 @@ const handelDeleteUser = async (id: string) => {
   }
 };
 
-export { handelCreateUser, getAllUsers, handelDeleteUser };
+const getlUserByID = async (id: string) => {
+  //get all users from database
+  const connection = await getConnection();
+
+  // A simple SELECT query
+  try {
+    const sql = "SELECT * FROM `users` WHERE `id` = ? LIMIT 1";
+    const values = [id];
+
+    const [result, fields] = await connection.execute(sql, values);
+
+    return result;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
+};
+
+export { handleCreateUser, getAllUsers, handelDeleteUser, getlUserByID };

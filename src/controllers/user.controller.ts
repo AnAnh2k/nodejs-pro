@@ -1,15 +1,16 @@
-import { log } from "console";
 import { Request, Response } from "express";
 import {
   getAllUsers,
-  handelCreateUser,
+  handleCreateUser,
   handelDeleteUser,
-} from "services/user.service";
+  getlUserByID,
+} from "../services/user.service"; // <-- Sửa lại đường dẫn này
+import { log } from "console";
 
 const getHomePage = async (req: Request, res: Response) => {
   //get user
   const users = await getAllUsers();
-  console.log(">>> check user: ", users);
+
   return res.render("home", { users: users });
 };
 
@@ -19,7 +20,7 @@ const getCreateUserPage = (req: Request, res: Response) => {
 
 const postCreateUser = async (req: Request, res: Response) => {
   const { fullname, email, address } = req.body;
-  await handelCreateUser(fullname, email, address);
+  await handleCreateUser(fullname, email, address);
 
   return res.redirect("/");
 };
@@ -30,4 +31,17 @@ const postDeleteUser = async (req: Request, res: Response) => {
   return res.redirect("/");
 };
 
-export { getHomePage, getCreateUserPage, postCreateUser, postDeleteUser };
+const getViewUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await getlUserByID(id);
+  log(user);
+  return res.render("view-user", { user: user[0] }); // hoặc res.status(400).send("Missing user id");
+};
+
+export {
+  getHomePage,
+  getCreateUserPage,
+  postCreateUser,
+  postDeleteUser,
+  getViewUser,
+};

@@ -21,6 +21,16 @@ app.use(express.static("public"));
 //config routes
 webRoute(app);
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+function shutdown() {
+  server.close(() => process.exit(0));
+}
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
+process.once("SIGUSR2", () => {
+  shutdown();
+  process.kill(process.pid, "SIGUSR2");
 });

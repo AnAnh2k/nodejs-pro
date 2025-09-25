@@ -12,22 +12,22 @@
     "nodemon": "3.1.9",
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "kill-port": "2.0.1"            
   },
   "main": "dist/app.js",
   "scripts": {
-    "start": "nodemon",
+    "predev": "kill-port 8080",     
     "dev": "nodemon",
-    "start:debug": "nodemon --inspect=9229 -e ts,tsx --exec node -r ts-node/register -r tsconfig-paths/register ./src/app.ts"
+    "start": "node dist/app.js",
+    "start:debug": "nodemon --inspect=9229 -e ts,ejs --exec node -r ts-node/register -r tsconfig-paths/register ./src/app.ts"
   },
   "nodemonConfig": {
-    "watch": [
-      "src"
-    ],
-    "ext": "ts",
-    "ignore": [
-      "node_modules"
-    ],
-    "exec": "ts-node -r tsconfig-paths/register ./src/app.ts"
+    "watch": ["src"],
+    "ext": "ts,ejs",                
+    "ignore": ["node_modules"],
+    "exec": "ts-node -r tsconfig-paths/register ./src/app.ts",
+    "signal": "SIGTERM",            
+    "legacyWatch": true             
   }
 }
