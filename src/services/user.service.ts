@@ -29,39 +29,23 @@ const getAllUsers = async () => {
 };
 
 const handelDeleteUser = async (id: string) => {
-  //get all users from database
-  const connection = await getConnection();
-
-  // A simple SELECT query
-  try {
-    const sql = "DELETE FROM `user` WHERE `id` = ? LIMIT 1";
-    const values = [id];
-
-    const [result, fields] = await connection.execute(sql, values);
-
-    return result;
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
+  const userDelete = await prisma.user.delete({
+    where: {
+      id: +id,
+    },
+  });
+  log("Fetched user dl ID:", userDelete);
+  return userDelete;
 };
 
 const getUserByID = async (id: string) => {
-  //get all users from database
-  const connection = await getConnection();
-
-  // A simple SELECT query
-  try {
-    const sql = "SELECT * FROM `user` WHERE `id` = ? LIMIT 1";
-    const values = [id];
-
-    const [result, fields] = await connection.execute(sql, values);
-
-    return result;
-  } catch (err) {
-    console.log(err);
-    return [];
-  }
+  const userByID = await prisma.user.findUnique({
+    where: {
+      id: parseInt(id, 10),
+    },
+  });
+  log("Fetched user by ID:", userByID);
+  return userByID;
 };
 const updateUserByID = async (
   id: string,
@@ -69,18 +53,17 @@ const updateUserByID = async (
   email: string,
   address: string
 ) => {
-  const connection = await getConnection();
-  try {
-    const sql =
-      "UPDATE `user` SET `name` = ?, `email` = ?, `address` = ? WHERE `id` = ? LIMIT 1";
-    const values = [fullName, email, address, id];
-
-    const [result] = await connection.execute(sql, values);
-    return result;
-  } catch (err) {
-    console.error("Update user error:", err);
-    return [];
-  }
+  const newUer = await prisma.user.update({
+    where: {
+      id: parseInt(id, 10),
+    },
+    data: {
+      name: fullName,
+      email: email,
+      address: address,
+    },
+  });
+  return newUer;
 };
 
 export {
