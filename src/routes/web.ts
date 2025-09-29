@@ -24,12 +24,12 @@ const webRoute = (app: Express) => {
 
   router.get("/view-user/:id", getViewUser);
   router.post("/handle-update-user/:id", postUpdateUser);
-  router.post("/handle-create-user", postCreateUser);
 
   //admin page
   router.get("/admin", getDashboardPage);
   router.get("/admin/user", getAdminUserPage);
   router.get("/admin/create-user", getCreateUserPage);
+  router.post("/admin/handle-create-user", postCreateUser);
 
   router.get("/admin/product", getAdminProductPage);
   router.get("/admin/order", getAdminOrderPage);

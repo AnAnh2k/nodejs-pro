@@ -15,6 +15,17 @@
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(() => {
+        const avatarFile = $("#avatarFile");
+        avatarFile.change(function (e) {
+          const imgURL = URL.createObjectURL(e.target.files[0]);
+          $("#avatarPreview").attr("src", imgURL);
+          $("#avatarPreview").css({ display: "block" });
+        });
+      });
+    </script>
   </head>
   <body class="sb-nav-fixed">
     <%- include('../layout/header'); -%>
@@ -39,7 +50,7 @@
             <div>
               <div style="width: 600px; margin: 0 auto">
                 <h3 style="padding: 10px 0">Create a user:</h3>
-                <form action="/handle-create-user" method="post">
+                <form action="/admin/handle-create-user" method="post">
                   <div class="mb-3">
                     <label class="form-label">Full name:</label>
                     <input
@@ -61,7 +72,12 @@
                   <div class="row">
                     <div class="mb-3 col-6">
                       <label class="form-label">Phone</label>
-                      <input type="number" class="form-control" name="phone" />
+                      <input
+                        type="tel"
+                        class="form-control"
+                        name="phone"
+                        maxlength="10"
+                      />
                     </div>
 
                     <div class="mb-3 col-6">
@@ -76,8 +92,19 @@
 
                   <div class="col-md-6">
                     <label for="formFile" class="form-label">Avatar</label>
-                    <input class="form-control" type="file" id="formFile" />
+                    <input
+                      class="form-control"
+                      type="file"
+                      id="avatarFile"
+                      accept=".png, .jpg, .jpeg"
+                    />
                   </div>
+                  <img
+                    style="max-height: 250px; display: none"
+                    alt="avatar preview"
+                    id="avatarPreview"
+                  />
+
                   <div class="mb-3">
                     <label class="form-label">Address:</label>
                     <textarea
