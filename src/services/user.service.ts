@@ -1,3 +1,4 @@
+import { Role } from "./../../node_modules/.prisma/client/index.d";
 import { name } from "ejs";
 import getConnection from "config/database";
 import { Connection } from "./../../node_modules/mysql2/promise.d";
@@ -6,8 +7,11 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import { prisma } from "config/client";
 
 const handleCreateUser = async (
-  fullname: string,
-  email: string,
+  fullName: string,
+  username: string,
+  password: string,
+  phone: string,
+  role: string,
   address: string
 ) => {
   //insert to database
@@ -15,10 +19,11 @@ const handleCreateUser = async (
   // Using placeholders
   const newUer = await prisma.user.create({
     data: {
-      fullName: fullname,
-      username: email,
+      fullName: fullName,
+      username: username,
+      phone: phone,
+      password: password || "123456",
       address: address,
-      password: "",
       accountType: "",
     },
   });

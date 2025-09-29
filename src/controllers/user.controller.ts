@@ -22,9 +22,16 @@ const getCreateUserPage = async (req: Request, res: Response) => {
 };
 
 const postCreateUser = async (req: Request, res: Response) => {
-  const { fullName, username, phone, role, address } = req.body;
-  log("Received user data:", { fullName, username, phone, role, address });
-  // const a = await handleCreateUser(fullname, email, address);
+  const { fullName, username, password, phone, role, address } = req.body;
+
+  const a = await handleCreateUser(
+    fullName,
+    username,
+    password,
+    phone,
+    role,
+    address
+  );
 
   return res.redirect("/admin/user");
 };
