@@ -5,7 +5,7 @@ import {
   handelDeleteUser,
   getUserByID,
   updateUserByID,
-} from "../services/user.service"; // <-- Sửa lại đường dẫn này
+} from "services/user.service"; // <-- Sửa lại đường dẫn này
 import { log } from "console";
 
 const getHomePage = async (req: Request, res: Response) => {
