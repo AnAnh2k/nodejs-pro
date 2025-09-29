@@ -5,6 +5,7 @@ import {
   handelDeleteUser,
   getUserByID,
   updateUserByID,
+  getAllRole,
 } from "services/user.service"; // <-- Sửa lại đường dẫn này
 import { log } from "console";
 
@@ -15,8 +16,9 @@ const getHomePage = async (req: Request, res: Response) => {
   return res.render("home", { users: users });
 };
 
-const getCreateUserPage = (req: Request, res: Response) => {
-  return res.render("admin/user/create");
+const getCreateUserPage = async (req: Request, res: Response) => {
+  const roles = await getAllRole();
+  return res.render("admin/user/create", { roles: roles });
 };
 
 const postCreateUser = async (req: Request, res: Response) => {

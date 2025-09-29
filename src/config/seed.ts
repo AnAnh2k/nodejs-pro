@@ -3,6 +3,8 @@ import e from "express";
 
 const initDatabase = async () => {
   const countUser = await prisma.user.count();
+  const countRole = await prisma.role.count();
+
   if (countUser === 0) {
     //seed data
     await prisma.user.createMany({
@@ -16,6 +18,20 @@ const initDatabase = async () => {
           username: "admin@gmail.com",
           password: "123456",
           accountType: "SYSTEM",
+        },
+      ],
+    });
+  } else if (countRole === 0) {
+    //seed data
+    await prisma.role.createMany({
+      data: [
+        {
+          name: "ADMIN",
+          description: "Admin thì full quền ",
+        },
+        {
+          name: "USER",
+          description: "User thông thường",
         },
       ],
     });
