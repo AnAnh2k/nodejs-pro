@@ -65,8 +65,8 @@
                     <td><%= user.id %></td>
                     <td>
                       <img
-                        style="width: 100px; height: 100px; object-fit: cover"
-                        src="http://localhost:8080/images/<%= user.avatar %>"
+                        style="width: 75px; height: 75px; object-fit: cover"
+                        src="http://localhost:8080/images/<%= user.avatar || 'avatar-default.png' %>"
                         alt="avatar"
                       />
                     </td>
