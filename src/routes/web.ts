@@ -10,7 +10,10 @@ import {
 } from "../controllers/user.controller";
 import { log } from "console";
 import { get } from "http";
-import { getDashboardPage } from "../controllers/admin/Dashboard.controller";
+import {
+  getDashboardPage,
+  getAdminUserPage,
+} from "../controllers/admin/dashboard.controller";
 
 const webRoute = (app: Express) => {
   router.get("/", getHomePage);
@@ -24,6 +27,7 @@ const webRoute = (app: Express) => {
 
   //admin page
   router.get("/admin", getDashboardPage);
+  router.get("/admin/user", getAdminUserPage);
 
   app.use("/", router);
 };
