@@ -16,8 +16,7 @@ import {
   getAdminProductPage,
   getAdminOrderPage,
 } from "../controllers/admin/dashboard.controller";
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+import fileUploadMiddlelware from "src/middleware/multer";
 
 const webRoute = (app: Express) => {
   router.get("/", getHomePage);
@@ -31,13 +30,10 @@ const webRoute = (app: Express) => {
   router.get("/admin", getDashboardPage);
   router.get("/admin/user", getAdminUserPage);
   router.get("/admin/create-user", getCreateUserPage);
-  // router.post("/admin/handle-create-user", postCreateUser);
   router.post(
     "/admin/handle-create-user",
-    upload.single("avatar"),
-    (req, res) => {
-      return res.send("File uploaded successfully.");
-    }
+    fileUploadMiddlelware("avatar"),
+    postCreateUser
   );
 
   router.get("/admin/product", getAdminProductPage);
