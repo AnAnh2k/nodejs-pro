@@ -9,7 +9,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Manage Prodcut - An Đức Anh</title>
+    <title>Manage User - An Đức Anh</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -33,7 +33,35 @@
               <li class="breadcrumb-item active">Products</li>
             </ol>
 
-            <div>table product</div>
+            <div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <h5>List Products:</h5>
+                <div>
+                  <a href="/admin/create-product" class="btn btn-primary"
+                    >Create a new product
+                  </a>
+                </div>
+              </div>
+              <hr />
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <th>ID</th>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>ShortDesc</th>
+                  <th>Quantity</th>
+                  <th>Sold</th>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
           </div>
         </main>
         <%- include('../layout/footer'); -%>
