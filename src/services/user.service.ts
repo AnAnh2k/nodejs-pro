@@ -17,9 +17,9 @@ const handleCreateUser = async (
   username: string,
   password: string,
   phone: string,
-  // role: string,
+  role: string,
   address: string,
-  avatar: string | null
+  avatar: string
 ) => {
   //insert to database
 
@@ -34,6 +34,7 @@ const handleCreateUser = async (
       address: address,
       accountType: ACCOUNT_TYPE.SYSTEM,
       avatar: avatar,
+      roleId: +role,
     },
   });
   return newUer;
@@ -65,7 +66,6 @@ const getUserByID = async (id: string) => {
       id: parseInt(id, 10),
     },
   });
-  log("Fetched user by ID:", userByID);
   return userByID;
 };
 const updateUserByID = async (

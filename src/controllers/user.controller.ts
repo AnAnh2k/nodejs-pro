@@ -31,7 +31,7 @@ const postCreateUser = async (req: Request, res: Response) => {
     username,
     password,
     phone,
-    // role,
+    role,
     address,
     avatar
   );
@@ -49,7 +49,7 @@ const getViewUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const user = await getUserByID(id);
 
-  return res.render("view-user", { user: user }); // hoặc res.status(400).send("Missing user id");
+  return res.render("admin/user/view", { user: user }); // hoặc res.status(400).send("Missing user id");
 };
 const postUpdateUser = async (req: Request, res: Response) => {
   const { id, fullName, email, address } = req.body;

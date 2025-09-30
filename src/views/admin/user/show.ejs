@@ -65,7 +65,13 @@
                     <td><%= user.id %></td>
                     <td>
                       <img
-                        style="width: 75px; height: 75px; object-fit: cover"
+                        style="
+                          width: 75px;
+                          height: 75px;
+                          object-fit: cover;
+                          border-radius: 50%;
+                          display: inline-block;
+                        "
                         src="http://localhost:8080/images/<%= user.avatar || 'avatar-default.png' %>"
                         alt="avatar"
                       />
@@ -75,7 +81,10 @@
                     <td><%= user.address %></td>
                     <td>
                       <div style="display: flex; gap: 10px">
-                        <form action="/view-user/<%= user.id %>" method="get">
+                        <form
+                          action="/admin/view-user/<%= user.id %>"
+                          method="get"
+                        >
                           <Button class="btn btn-warning" type="submit"
                             >View</Button
                           >

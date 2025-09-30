@@ -11,25 +11,32 @@ const initDatabase = async () => {
     //seed data
 
     const defaultPassword = await hashPassword("123456");
-
-    await prisma.user.createMany({
-      data: [
-        {
-          fullName: "An Duc Anh",
-          username: "anducanh@gmail.com",
-          password: defaultPassword,
-          accountType: ACCOUNT_TYPE.SYSTEM,
-        },
-        {
-          fullName: "Admin",
-
-          username: "admin@gmail.com",
-          password: defaultPassword,
-          accountType: ACCOUNT_TYPE.SYSTEM,
-        },
-      ],
+    const adminRole = await prisma.role.findFirst({
+      where: { name: "ADMIN" },
     });
-  } else if (countRole === 0) {
+    if (adminRole)
+      await prisma.user.createMany({
+        data: [
+          {
+            fullName: "An Duc Anh",
+            username: "anducanh@gmail.com",
+            password: defaultPassword,
+            accountType: ACCOUNT_TYPE.SYSTEM,
+            roleId: adminRole.id,
+            avatar: "avatar-default.png",
+          },
+          {
+            fullName: "User",
+            username: "user@gmail.com",
+            password: defaultPassword,
+            accountType: ACCOUNT_TYPE.SYSTEM,
+            roleId: adminRole.id,
+            avatar: "avatar-default.png",
+          },
+        ],
+      });
+  }
+  if (countRole === 0) {
     //seed data
     await prisma.role.createMany({
       data: [
@@ -43,7 +50,8 @@ const initDatabase = async () => {
         },
       ],
     });
-  } else {
+  }
+  if (countUser !== 0 && countRole !== 0) {
     console.log("Database already seeded");
   }
 };
