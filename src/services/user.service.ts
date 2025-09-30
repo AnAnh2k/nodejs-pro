@@ -71,19 +71,28 @@ const getUserByID = async (id: string) => {
 const updateUserByID = async (
   id: string,
   fullName: string,
-  email: string,
-  address: string
+
+  phone: string,
+  role: string,
+  address: string,
+  avatar: string
 ) => {
+  // const defaultPassword = await hashPassword(password ?? "123456");
+
   const newUer = await prisma.user.update({
     where: {
-      id: parseInt(id, 10),
+      id: +id,
     },
     data: {
       fullName: fullName,
-      username: email,
+      // username: username,
+      phone: phone,
+      // password: defaultPassword,
       address: address,
-      password: "",
-      accountType: "",
+      accountType: ACCOUNT_TYPE.SYSTEM,
+
+      roleId: +role,
+      ...(avatar !== undefined && { avatar: avatar }),
     },
   });
   return newUer;

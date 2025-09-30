@@ -51,10 +51,20 @@
               <div style="width: 600px; margin: 0 auto">
                 <h3 style="padding: 10px 0">Detail a user:</h3>
                 <form
-                  action="/admin/handle-create-user"
+                  action="/admin/update-user/<%= user.id %>"
                   method="post"
                   enctype="multipart/form-data"
                 >
+                  <div class="mb-3">
+                    <input
+                      style="display: none"
+                      type="text"
+                      class="form-control"
+                      placeholder="your name"
+                      name="id"
+                      value="<%= user.id %>"
+                    />
+                  </div>
                   <div class="mb-3">
                     <label class="form-label">Full name:</label>
                     <input
@@ -73,12 +83,13 @@
                       placeholder="name@example.com"
                       name="username"
                       value="<%= user.username %>"
+                      disabled
                     />
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Password:</label>
                     <input
-                      type="password"
+                      type="text"
                       class="form-control"
                       placeholder="******"
                       name="password"
@@ -98,6 +109,20 @@
                         value="<%= user.phone %>"
                       />
                     </div>
+                    <!-- roles -->
+                    <div class="mb-3 col-6">
+                      <label class="form-label">Role</label>
+                      <select name="role" class="form-select">
+                        <% roles.forEach((role, index) => { %>
+                        <option
+                          value="<%= role.id %>"
+                          <%= role.id === user.roleId ? "selected" : "" %>
+                        >
+                          <%- role.name %>
+                        </option>
+                        <%})%>
+                      </select>
+                    </div>
                   </div>
 
                   <div class="col-md-6">
@@ -108,15 +133,21 @@
                       type="file"
                       id="avatarFile"
                       accept=".png, .jpg, .jpeg"
-                      value="<%= user.avatar %>"
                     />
                   </div>
-                  <img
-                    src="http://localhost:8080/images/<%= user.avatar%>"
+                 
+
+                  <% if (user.avatar) { %>
+                     <img
+                    src="/images/<%= user.avatar%>"
                     style="max-height: 250px; display: block"
                     alt="avatar preview"
                     id="avatarPreview"
                   />
+                  <% } else { %>
+                    <span>Không có ảnh upload</span>
+                  <% } %>
+
 
                   <div class="mb-3">
                     <label class="form-label">Address:</label>
@@ -131,7 +162,7 @@
                   </div>
                   <div class="mb-3">
                     <button type="submit" class="btn btn-primary">
-                      Submit
+                      Update
                     </button>
                   </div>
                 </form>

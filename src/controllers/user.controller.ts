@@ -42,22 +42,34 @@ const postCreateUser = async (req: Request, res: Response) => {
 const postDeleteUser = async (req: Request, res: Response) => {
   await handelDeleteUser(req.params.id);
 
-  return res.redirect("/");
+  return res.redirect("/admin/user");
 };
 
 const getViewUser = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const roles = await getAllRole();
   const user = await getUserByID(id);
 
-  return res.render("admin/user/view", { user: user }); // hoặc res.status(400).send("Missing user id");
+  return res.render("admin/user/view", { user: user, roles: roles }); // hoặc res.status(400).send("Missing user id");
 };
 const postUpdateUser = async (req: Request, res: Response) => {
-  const { id, fullName, email, address } = req.body;
+  const { id, fullName, phone, role, address } = req.body;
+  log("Update user id:", req.body);
   //update user by id
-  log("Updating user:", { id, fullName, email, address });
-  const user = await updateUserByID(id, fullName, email, address);
+  const file = req.file;
+  const avatar = file?.filename;
+  log("Update user avatar:", avatar);
+  const a = await updateUserByID(
+    id,
+    fullName,
 
-  return res.redirect("/");
+    phone,
+    role,
+    address,
+    avatar
+  );
+  log("Update user:", a);
+  return res.redirect("/admin/user");
 };
 
 export {
