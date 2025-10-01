@@ -24,6 +24,7 @@ webRoute(app);
 
 //seeding data
 initDatabase();
+
 const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
