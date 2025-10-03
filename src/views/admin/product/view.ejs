@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Manage product - An Đức Anh</title>
+    <link href="/admin/css/styles.css" rel="stylesheet" />
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(() => {
+        const avatarFile = $("#avatarFile");
+        avatarFile.change(function (e) {
+          const imgURL = URL.createObjectURL(e.target.files[0]);
+          $("#avatarPreview").attr("src", imgURL);
+          $("#avatarPreview").css({ display: "block" });
+        });
+      });
+    </script>
+  </head>
+  <body class="sb-nav-fixed">
+    <%- include('../layout/header'); -%>
+
+    <div id="layoutSidenav">
+      <%- include('../layout/sidenav'); -%>
+
+      <div id="layoutSidenav_content">
+        <main>
+          <!-- update main div -->
+          <div class="container-fluid px-4">
+            <h1 class="mt-4">Manage Products</h1>
+
+            <ol class="breadcrumb mb-4">
+              <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+              <li class="breadcrumb-item">
+                <a href="/admin/product">Product</a>
+              </li>
+              <li class="breadcrumb-item active">Detail Product</li>
+            </ol>
+
+            <div>
+              <div style="width: 600px; margin: 0 auto">
+                
+                <h3 style="padding: 10px 0">Detail a product:</h3>
+                <form
+                  action="/admin/update-product/<%= product.id %>"
+                  method="post"
+                  enctype="multipart/form-data"
+                >
+                  <div class="mb-3">
+                    <input
+                      style="display: none"
+                      type="text"
+                      class="form-control"
+                      placeholder="your name"
+                      name="id"
+                      value="<%= product.id %>"
+                    />
+                  </div>
+                  <div class="row">
+                    <div class="mb-3 col-6">
+                      <label class="form-label">Name:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="name..."
+                        name="name"
+                        value="<%= product.name %>"
+                      />
+                    </div>
+                    <div class="mb-3 col-6">
+                      <label class="form-label">Price:</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="price"
+                        value="<%= product.price %>"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Detail Description:</label>
+                    <textarea
+                      type="text"
+                      class="form-control"
+                      name="detailDesc"
+                    >
+<%= product.detailDesc %></textarea
+                    >
+                  </div>
+
+                  <div class="row">
+                    <div class="mb-3 col-6">
+                      <label class="form-label">Short Description:</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="shortDesc"
+                        value="<%= product.shortDesc %>"
+                      />
+                    </div>
+                    <div class="mb-3 col-6">
+                      <label class="form-label">Quantity</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="quantity"
+                        value="<%= product.quantity %>"
+                      />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="mb-3 col-6">
+                      <label class="form-label">Factory</label>
+                      <select name="factory" id="factory" class="form-control">
+                      <% factoryOptions.forEach(option => { %>
+                        <option value="<%= option.value %>" 
+                          <%= product.factory === option.value ? "selected" : "" %>>
+                          <%= option.name %>
+                        </option>
+                      <% }) %>
+                    </select>
+                    </div>
+
+                    <div class="mb-3 col-6">
+                      <label class="form-label">Target</label>
+                      <select name="target" class="form-select">
+                       <% targetOptions.forEach(target => { %>
+                        <option value="<%= target.value %>" 
+                          <%= product.target === target.value ? "selected" : "" %>>
+                          <%= target.name %>
+                        </option>
+                      <% }) %>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="formFile" class="form-label">Image:</label>
+                    <input
+                      name="image"
+                      class="form-control"
+                      type="file"
+                      id="avatarFile"
+                      accept=".png, .jpg, .jpeg"
+                    />
+                  </div>
+                  <% if (product.image) { %>
+                  <img
+                    src="/images/product/<%= product.image%>"
+                    style="max-height: 250px; display: block"
+                    alt="avatar preview"
+                    id="avatarPreview"
+                  />
+                  <% } else { %>
+                  <span>Không có ảnh upload</span>
+                  <% } %>
+
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mt-3">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </main>
+        <%- include('../layout/footer'); -%>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/admin/js/scripts.js"></script>
+  </body>
+</html>

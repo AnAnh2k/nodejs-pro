@@ -1,5 +1,6 @@
 import { Product } from ".prisma/client";
 import { prisma } from "config/client";
+import { log } from "console";
 
 const handleCreateProduct = async (
   name: string,
@@ -34,4 +35,61 @@ const getAllProducts = async () => {
   return allProduct;
 };
 
-export { handleCreateProduct, getAllProducts };
+const getProductByID = async (id: string) => {
+  const productByID = await prisma.product.findUnique({
+    where: {
+      id: parseInt(id, 10),
+    },
+  });
+  return productByID;
+};
+
+const updateProductByID = async (
+  id: string,
+  name: string,
+  price: number,
+  image: string,
+  detailDesc: string,
+  shortDesc: string,
+  quantity: number,
+  factory: string,
+  target: string
+) => {
+  // const defaultPassword = await hashPassword(password ?? "123456");
+
+  const newUer = await prisma.product.update({
+    where: {
+      id: +id,
+    },
+    data: {
+      name: name,
+      price: price,
+      ...(image !== undefined && { image: image }),
+      detailDesc: detailDesc,
+      shortDesc: shortDesc,
+      quantity: quantity,
+      factory: factory,
+      target: target,
+    },
+  });
+  log("Updated product:", newUer);
+  return newUer;
+};
+
+const handelDeleteProduct = async (id: string) => {
+  const productDelete = await prisma.product.delete({
+    where: {
+      id: +id,
+    },
+  });
+  log("Fetched user dl ID:", productDelete);
+  return productDelete;
+};
+
+export {
+  handleCreateProduct,
+  getAllProducts,
+  getProductByID,
+  updateProductByID,
+  handelDeleteProduct,
+};
