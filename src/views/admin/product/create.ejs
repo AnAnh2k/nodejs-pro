@@ -49,6 +49,10 @@
 
             <div>
               <div style="width: 600px; margin: 0 auto">
+                <% errors.forEach(function(error) { %>
+
+                <div class="alert alert-danger mb-3"><%= error %></div>
+                <% }) %>
                 <h3 style="padding: 10px 0">Create a product:</h3>
                 <form
                   action="/admin/handle-create-product"
@@ -63,11 +67,17 @@
                         class="form-control"
                         placeholder="name..."
                         name="name"
+                        value="<%= oldData.name %>"
                       />
                     </div>
                     <div class="mb-3 col-6">
                       <label class="form-label">Price:</label>
-                      <input type="number" class="form-control" name="price" />
+                      <input
+                        type="number"
+                        class="form-control"
+                        name="price"
+                        value="<%= oldData.price %>"
+                      />
                     </div>
                   </div>
 
@@ -77,7 +87,9 @@
                       type="text"
                       class="form-control"
                       name="detailDesc"
-                    ></textarea>
+                    >
+<%= oldData.detailDesc %></textarea
+                    >
                   </div>
 
                   <div class="row">
@@ -87,6 +99,7 @@
                         type="text"
                         class="form-control"
                         name="shortDesc"
+                        value="<%= oldData.shortDesc %>"
                       />
                     </div>
                     <div class="mb-3 col-6">
@@ -95,6 +108,7 @@
                         type="number"
                         class="form-control"
                         name="quantity"
+                        value="<%= oldData.quantity %>"
                       />
                     </div>
                   </div>

@@ -2,18 +2,43 @@ import e, { Request, Response } from "express";
 import { ProductSchema, TProductSchema } from "src/validation/product.schema";
 
 const getAdminCreateProductPage = (req, res) => {
-  return res.render("admin/product/create");
+  const errors = [];
+  const oldData = {
+    name: "",
+    price: "",
+    shortDesc: "",
+    detailDesc: "",
+    quantity: "",
+    factory: "",
+    target: "",
+  };
+  return res.render("admin/product/create", { errors, oldData });
 };
 
 const postAdminCreateProductPage = (req, res) => {
-  const { name, price, shortDesc, quantity } = req.body as TProductSchema;
+  const { name, price, shortDesc, detailDesc, quantity, factory, target } =
+    req.body as TProductSchema;
   const image = req.file ? req.file.filename : null;
-  try {
-    const result = ProductSchema.parse(req.body);
-    console.log("run ok", result);
-  } catch (error) {
-    console.log(error);
+
+  const validate = ProductSchema.safeParse(req.body);
+  if (!validate.success) {
+    //error
+    const errorsZod = validate.error.issues;
+    const errors = errorsZod?.map(
+      (item) => `${item.message}: (${item.path[0]})`
+    );
+    const oldData = {
+      name,
+      price,
+      shortDesc,
+      detailDesc,
+      quantity,
+      factory,
+      target,
+    };
+    return res.render("admin/product/create", { errors, oldData });
   }
+  //success
 
   return res.redirect("/admin/product");
 };
