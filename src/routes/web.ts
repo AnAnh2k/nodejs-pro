@@ -25,11 +25,18 @@ import {
   postDeleteProduct,
   postUpdateProduct,
 } from "src/controllers/admin/product.controller";
+import {
+  getLoginPage,
+  getRegisterPage,
+} from "controllers/client/auth.controller";
 
 const webRoute = (app: Express) => {
   router.get("/", getHomePage);
   //client page
   router.get("/product/:id", getProductPage);
+  //Account
+  router.get("/register", getRegisterPage);
+  router.get("/login", getLoginPage);
 
   //admin page
   router.get("/admin", getDashboardPage);
