@@ -62,6 +62,7 @@ const postAdminCreateProductPage = async (req, res) => {
 
 const getViewProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
+  const errors = [];
 
   //todo
   const factoryOptions = [
@@ -87,6 +88,7 @@ const getViewProduct = async (req: Request, res: Response) => {
     product: product,
     factoryOptions: factoryOptions,
     targetOptions: targetOptions,
+    errors: errors,
   }); // hoặc res.status(400).send("Missing user id");
 };
 
@@ -96,7 +98,50 @@ const postUpdateProduct = async (req: Request, res: Response) => {
   //update user by id
   const file = req.file;
   const image = file?.filename;
+  //validate
+  const validate = ProductSchema.safeParse(req.body);
+  const product = {
+    id,
+    name,
+    price,
+    shortDesc,
+    detailDesc,
+    quantity,
+    factory,
+    target,
+  };
 
+  const factoryOptions = [
+    { name: "Apple (MacBook)", value: "APPLE" },
+    { name: "Asus", value: "ASUS" },
+    { name: "Lenovo", value: "LENOVO" },
+    { name: "Dell", value: "DELL" },
+    { name: "LG", value: "LG" },
+    { name: "Acer", value: "ACER" },
+  ];
+
+  const targetOptions = [
+    { name: "Gaming", value: "GAMING" },
+    { name: "Sinh viên - Văn phòng", value: "SINHVIEN-VANPHONG" },
+    { name: "Thiết kế đồ hoạ", value: "THIET-KE-DO-HOA" },
+    { name: "Mỏng nhẹ", value: "MONG-NHE" },
+    { name: "Doanh nhân", value: "DOANH-NHAN" },
+  ];
+
+  if (!validate.success) {
+    //error
+    const errorsZod = validate.error.issues;
+    const errors = errorsZod?.map(
+      (item) => `${item.message}: (${item.path[0]})`
+    );
+
+    return res.render("admin/product/view", {
+      errors,
+      product,
+      factoryOptions,
+      targetOptions,
+    });
+  }
   const a = await updateProductByID(
     id,
     name,

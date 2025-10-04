@@ -8,9 +8,12 @@ import {
   getAllRole,
 } from "services/user.service"; // <-- Sửa lại đường dẫn này
 import { log } from "console";
+import { get } from "http";
+import { getProducts } from "services/client/item.service";
 
 const getHomePage = async (req: Request, res: Response) => {
-  return res.render("client/home/show");
+  const products = await getProducts();
+  return res.render("client/home/show", { products: products });
 };
 
 const getCreateUserPage = async (req: Request, res: Response) => {

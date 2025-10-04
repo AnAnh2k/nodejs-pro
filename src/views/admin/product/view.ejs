@@ -49,7 +49,10 @@
 
             <div>
               <div style="width: 600px; margin: 0 auto">
-                
+                 <% errors.forEach(function(error) { %>
+
+                <div class="alert alert-danger mb-3"><%= error %></div>
+                <% }) %>
                 <h3 style="padding: 10px 0">Detail a product:</h3>
                 <form
                   action="/admin/update-product/<%= product.id %>"
