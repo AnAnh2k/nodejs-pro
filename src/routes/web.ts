@@ -28,6 +28,7 @@ import {
 import {
   getLoginPage,
   getRegisterPage,
+  postRegisterPage,
 } from "controllers/client/auth.controller";
 
 const webRoute = (app: Express) => {
@@ -37,6 +38,7 @@ const webRoute = (app: Express) => {
   //Account
   router.get("/register", getRegisterPage);
   router.get("/login", getLoginPage);
+  router.post("/register", postRegisterPage);
 
   //admin page
   router.get("/admin", getDashboardPage);
