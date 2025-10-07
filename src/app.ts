@@ -25,6 +25,10 @@ webRoute(app);
 //seeding data
 initDatabase();
 
+//handle 404 not found
+app.use((req, res) => {
+  res.render("client/auth/notfound");
+});
 const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
