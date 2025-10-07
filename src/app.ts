@@ -3,6 +3,8 @@ import "dotenv/config";
 import webRoute from "./routes/web";
 import getConnection from "./config/database";
 import initDatabase from "config/seed";
+import passport from "passport";
+import confidPassportLocal from "src/middleware/passport.local";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -18,6 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 
 //config static files
 app.use(express.static("public"));
+
+//config passport
+app.use(passport.initialize());
+confidPassportLocal();
 
 //config routes
 webRoute(app);

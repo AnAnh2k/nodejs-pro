@@ -1,12 +1,38 @@
+import { prisma } from "config/client";
+import { log } from "console";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { handleLogin } from "services/client/auth.service";
+import { comparePassword } from "services/user.service";
 
 const confidPassportLocal = () => {
   passport.use(
-    new LocalStrategy(function verify(username, password, callback) {
+    new LocalStrategy({ usernameField: "username" }, async function verify(
+      username,
+      password,
+      callback
+    ) {
       console.log("LocalStrategy called with:", { username, password });
-      return handleLogin(username, password, callback);
+      //check user exist
+      const user = await prisma.user.findUnique({
+        where: { username: username },
+      });
+      //check password
+      if (!user) {
+        // throw new Error(`Username not found: ${username}`);
+        return callback(null, false, {
+          message: `Username not found: ${username}`,
+        });
+      }
+      //compare password
+      const isMatch = await comparePassword(password, (await user).password);
+      if (!isMatch) {
+        // throw new Error("Password is incorrect");
+        return callback(null, false, {
+          message: "Password is incorrect.",
+        });
+      }
+      log("Authentication successful for user:", user.username);
+      return callback(null, user);
     })
   );
 };
