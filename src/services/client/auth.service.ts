@@ -1,7 +1,7 @@
 import { prisma } from "config/client";
 import { ACCOUNT_TYPE } from "config/constant";
 import e from "express";
-import { hashPassword } from "services/user.service";
+import { comparePassword, hashPassword } from "services/user.service";
 
 const isEmailExist = async (email: string) => {
   const user = await prisma.user.findUnique({
@@ -41,4 +41,31 @@ const registerNewUser = async (
   }
 };
 
-export { isEmailExist, registerNewUser };
+const handleLogin = async (
+  username: string,
+  password: string,
+  callback: any
+) => {
+  //check user exist
+  const user = prisma.user.findUnique({
+    where: { username: username },
+  });
+  //check password
+  if (!user) {
+    // throw new Error(`Username not found: ${username}`);
+    return callback(null, false, {
+      message: `Username not found: ${username}`,
+    });
+  }
+  //compare password
+  const isMatch = await comparePassword(password, (await user).password);
+  if (!isMatch) {
+    // throw new Error("Password is incorrect");
+    return callback(null, false, {
+      message: "Password is incorrect.",
+    });
+  }
+  return callback(null, user);
+};
+
+export { isEmailExist, registerNewUser, handleLogin };
