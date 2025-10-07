@@ -1,3 +1,4 @@
+import { log } from "console";
 import e, { Request, Response } from "express";
 import { registerNewUser } from "services/client/auth.service";
 import {
@@ -18,7 +19,10 @@ const getRegisterPage = async (req: Request, res: Response) => {
 };
 
 const getLoginPage = async (req: Request, res: Response) => {
-  return res.render("client/auth/login");
+  const { session } = req as any;
+  const messages = session?.messages ?? [];
+  log("Login messages:", messages);
+  return res.render("client/auth/login", { messages: messages });
 };
 
 const postRegisterPage = async (req: Request, res: Response) => {

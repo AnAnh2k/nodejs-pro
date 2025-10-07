@@ -1,51 +1,57 @@
 import { prisma } from "config/client";
 import { log } from "console";
+import { get } from "http";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { comparePassword } from "services/user.service";
+import { comparePassword, getUserByID } from "services/user.service";
 
 const confidPassportLocal = () => {
   passport.use(
-    new LocalStrategy({ usernameField: "username" }, async function verify(
-      username,
-      password,
-      callback
-    ) {
-      console.log("LocalStrategy called with:", { username, password });
-      //check user exist
-      const user = await prisma.user.findUnique({
-        where: { username: username },
-      });
-      //check password
-      if (!user) {
-        // throw new Error(`Username not found: ${username}`);
-        return callback(null, false, {
-          message: `Username not found: ${username}`,
+    new LocalStrategy(
+      {
+        //  usernameField: "username"
+        passReqToCallback: true,
+      },
+      async function verify(req, username, password, callback) {
+        const { session } = req as any;
+        if (session?.messages?.length) {
+          session.messages = [];
+        }
+        const messages = session?.messages ?? [];
+        console.log("LocalStrategy called with:", { username, password });
+        //check user exist
+        const user = await prisma.user.findUnique({
+          where: { username: username },
         });
+        //check password
+        if (!user) {
+          // throw new Error(`Username not found: ${username}`);
+          return callback(null, false, {
+            message: `Username/password is incorrect.`,
+          });
+        }
+        //compare password
+        const isMatch = await comparePassword(password, (await user).password);
+        if (!isMatch) {
+          // throw new Error("Password is incorrect");
+          return callback(null, false, {
+            message: "Username/password is incorrect.",
+          });
+        }
+        return callback(null, user);
       }
-      //compare password
-      const isMatch = await comparePassword(password, (await user).password);
-      if (!isMatch) {
-        // throw new Error("Password is incorrect");
-        return callback(null, false, {
-          message: "Password is incorrect.",
-        });
-      }
-      log("Authentication successful for user:", user.username);
-      return callback(null, user);
-    })
+    )
   );
 
-  passport.serializeUser(function (user: any, cb) {
-    process.nextTick(function () {
-      cb(null, { id: user.id, username: user.username });
-    });
+  passport.serializeUser(function (user: any, callback) {
+    callback(null, { id: user.id, username: user.username });
   });
 
-  passport.deserializeUser(function (user, cb) {
-    process.nextTick(function () {
-      return cb(null, user);
-    });
+  passport.deserializeUser(async function (user: any, callback) {
+    const { id, usename } = user;
+    //query user by id
+    const userInDB = await getUserByID(id);
+    return callback(null, { ...userInDB });
   });
 };
 

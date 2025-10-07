@@ -44,6 +44,7 @@ const webRoute = (app: Express) => {
     passport.authenticate("local", {
       successRedirect: "/",
       failureRedirect: "/login",
+      failureMessage: true,
     })
   );
   router.post("/register", postRegisterPage);
