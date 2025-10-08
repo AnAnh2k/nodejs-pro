@@ -42,7 +42,7 @@ const webRoute = (app: Express) => {
   //client page
   router.get("/product/:id", getProductPage);
   //Account
-  router.get("/register", getRegisterPage);
+  router.get("/register", isLogin, getRegisterPage);
   router.get("/login", isLogin, getLoginPage);
   router.post(
     "/login",
@@ -56,7 +56,7 @@ const webRoute = (app: Express) => {
   router.post("/logout", postLogout);
 
   //admin page
-  router.get("/admin", isAdmin, getDashboardPage);
+  router.get("/admin", getDashboardPage);
   router.get("/admin/user", getAdminUserPage);
   router.get("/admin/create-user", getCreateUserPage);
   router.post(
@@ -90,7 +90,7 @@ const webRoute = (app: Express) => {
   );
   router.post("/admin/delete-product/:id", postDeleteProduct);
 
-  app.use("/", router);
+  app.use("/", isAdmin, router);
 };
 
 export default webRoute;

@@ -62,7 +62,7 @@ initDatabase();
 
 //handle 404 not found
 app.use((req, res) => {
-  res.render("client/auth/notfound");
+  res.render("client/status/404");
 });
 const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
