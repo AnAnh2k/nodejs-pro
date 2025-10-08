@@ -5,11 +5,11 @@
       <div class="top-info ps-2">
         <small class="me-3"
           ><i class="fas fa-map-marker-alt me-2 text-secondary"></i>
-          <a href="#" class="text-white">123 Hà Nội, Việt Nam</a></small
+          <a href="#" class="text-white"> <%= user?.address ?? "" %> </a></small
         >
         <small class="me-3"
           ><i class="fas fa-envelope me-2 text-secondary"></i
-          ><a href="#" class="text-white">anducanh125@gmail.com.com</a></small
+          ><a href="#" class="text-white"><%= user?.username ?? ""%></a></small
         >
       </div>
       <div class="top-link pe-2">
@@ -49,9 +49,81 @@
               >3</span
             >
           </a>
-          <a href="#" class="my-auto">
-            <i class="fas fa-user fa-2x"></i>
-          </a>
+          <% if (user) { %>
+          <div class="dropdown my-auto">
+            <a
+              href="#"
+              class="dropdown"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-user fa-2x"></i>
+            </a>
+
+            <ul
+              class="dropdown-menu dropdown-menu-end p-4"
+              aria-labelledby="dropdownMenuLink"
+            >
+              <li>
+                <div
+                  class="d-flex align-items-center flex-column"
+                  style="min-width: 300px"
+                >
+                  <img
+                    style="
+                      width: 150px;
+                      height: 150px;
+                      border-radius: 50%;
+                      object-fit: cover;
+                    "
+                    src="/images/<%= user.avatar || 'avatar-default.png' %>"
+                  />
+                  <div class="text-center my-3">
+                    <%= user?.fullName ?? "" %>
+                  </div>
+                </div>
+              </li>
+
+              <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+              <li>
+                <a class="dropdown-item" href="/order-history"
+                  >Lịch sử mua hàng</a
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <form method="post" action="/logout">
+                  <button class="dropdown-item">Đăng xuất</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+          <% } else { %>
+          <div class="dropdown my-auto">
+            <a
+              href="#"
+              class="dropdown"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-user fa-2x"></i>
+            </a>
+
+            <ul
+              class="dropdown-menu dropdown-menu-end p-1"
+              aria-labelledby="dropdownMenuLink"
+            >
+              <li><a class="dropdown-item" href="/login">Đăng nhập</a></li>
+              <li><a class="dropdown-item" href="/register">Đăng kí</a></li>
+            </ul>
+          </div>
+          <% } %>
         </div>
       </div>
     </nav>

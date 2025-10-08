@@ -15,7 +15,7 @@ const getHomePage = async (req: Request, res: Response) => {
   const products = await getProducts();
   const user = req.user;
   log("User in session:", user);
-  return res.render("client/home/show", { products: products });
+  return res.render("client/home/show", { products: products, user: user });
 };
 
 const getCreateUserPage = async (req: Request, res: Response) => {

@@ -34,7 +34,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     store: new PrismaSessionStore(new PrismaClient(), {
-      checkPeriod: 2 * 60 * 1000, //ms
+      checkPeriod: 1 * 24 * 60 * 60 * 1000, //ms
       dbRecordIdIsSessionId: true,
       dbRecordIdFunction: undefined,
     }),
@@ -44,8 +44,13 @@ app.use(
 //config passport
 app.use(passport.initialize());
 app.use(passport.authenticate("session"));
-
 confidPassportLocal();
+
+//config global variable
+app.use((req, res, next) => {
+  res.locals.user = req.user || null; // Pass user object to all views
+  next();
+});
 
 //config routes
 webRoute(app);
