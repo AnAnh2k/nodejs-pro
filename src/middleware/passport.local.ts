@@ -39,7 +39,7 @@ const confidPassportLocal = () => {
             message: "Username/password is incorrect.",
           });
         }
-        return callback(null, user);
+        return callback(null, user as any);
       }
     )
   );

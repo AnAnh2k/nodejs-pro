@@ -29,6 +29,7 @@ import {
   getLoginPage,
   getRegisterPage,
   getSuccessRedirectPage,
+  postLogout,
   postRegisterPage,
 } from "controllers/client/auth.controller";
 import passport from "passport";
@@ -52,6 +53,7 @@ const webRoute = (app: Express) => {
     })
   );
   router.post("/register", postRegisterPage);
+  router.post("/logout", postLogout);
 
   //admin page
   router.get("/admin", isAdmin, getDashboardPage);
