@@ -3,6 +3,7 @@ import { log } from "console";
 import { get } from "http";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import { getUserWithRoleByID } from "services/client/auth.service";
 import { comparePassword, getUserByID } from "services/user.service";
 
 const confidPassportLocal = () => {
@@ -50,7 +51,7 @@ const confidPassportLocal = () => {
   passport.deserializeUser(async function (user: any, callback) {
     const { id, usename } = user;
     //query user by id
-    const userInDB = await getUserByID(id);
+    const userInDB = await getUserWithRoleByID(id);
     return callback(null, { ...userInDB });
   });
 };

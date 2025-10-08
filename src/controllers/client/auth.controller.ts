@@ -1,3 +1,4 @@
+import { name } from "ejs";
 import { log } from "console";
 import e, { Request, Response } from "express";
 import { registerNewUser } from "services/client/auth.service";
@@ -54,4 +55,18 @@ const postRegisterPage = async (req: Request, res: Response) => {
   return res.redirect("/login");
 };
 
-export { getRegisterPage, getLoginPage, postRegisterPage };
+const getSuccessRedirectPage = async (req: Request, res: Response) => {
+  const { user } = req.user as any;
+  if (user?.role?.name !== "USER") {
+    res.redirect("/admin");
+  } else {
+    res.redirect("/");
+  }
+};
+
+export {
+  getRegisterPage,
+  getLoginPage,
+  postRegisterPage,
+  getSuccessRedirectPage,
+};
