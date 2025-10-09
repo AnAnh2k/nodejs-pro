@@ -41,10 +41,10 @@ const registerNewUser = async (
   }
 };
 
-const getUserWithRoleByID = async (id: string) => {
+const getUserWithRoleByID = async (id: number) => {
   const userByID = await prisma.user.findUnique({
     where: {
-      id: parseInt(id, 10),
+      id: id,
     },
     include: {
       role: true,

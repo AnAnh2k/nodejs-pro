@@ -51,7 +51,7 @@ const confidPassportLocal = () => {
   passport.deserializeUser(async function (user: any, callback) {
     const { id, usename } = user;
     //query user by id
-    const userInDB = await getUserWithRoleByID(id);
+    const userInDB: any = await getUserWithRoleByID(id);
     return callback(null, { ...userInDB });
   });
 };
