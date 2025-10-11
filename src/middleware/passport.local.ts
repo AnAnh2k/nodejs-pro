@@ -3,7 +3,10 @@ import { log } from "console";
 import { get } from "http";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { getUserWithRoleByID } from "services/client/auth.service";
+import {
+  getUserSumCart,
+  getUserWithRoleByID,
+} from "services/client/auth.service";
 import { comparePassword, getUserByID } from "services/user.service";
 
 const confidPassportLocal = () => {
@@ -52,7 +55,9 @@ const confidPassportLocal = () => {
     const { id, usename } = user;
     //query user by id
     const userInDB: any = await getUserWithRoleByID(id);
-    return callback(null, { ...userInDB });
+    const sumCart = await getUserSumCart(id);
+    log("sumCart", sumCart);
+    return callback(null, { ...userInDB, sumCart });
   });
 };
 

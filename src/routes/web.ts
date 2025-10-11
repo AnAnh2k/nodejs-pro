@@ -18,6 +18,7 @@ import {
 } from "../controllers/admin/dashboard.controller";
 import fileUploadMiddlelware from "src/middleware/multer";
 import {
+  getCartPage,
   getProductPage,
   postAddProductToCart,
 } from "src/controllers/client/client.controller";
@@ -59,6 +60,7 @@ const webRoute = (app: Express) => {
   router.post("/logout", postLogout);
   // cart
   router.post("/add-product-to-cart/:id", postAddProductToCart);
+  router.get("/cart", getCartPage);
 
   //admin page
   router.get("/admin", getDashboardPage);
