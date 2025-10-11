@@ -64,4 +64,5 @@ const getUserSumCart = async (id: number) => {
   });
   return userByID?.sum || 0;
 };
+
 export { isEmailExist, registerNewUser, getUserWithRoleByID, getUserSumCart };

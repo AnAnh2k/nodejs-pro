@@ -81,4 +81,24 @@ const addProductToCart = async (
   }
 };
 
-export { getProducts, getProductByID, addProductToCart };
+const getCartDetail = async (id: number) => {
+  const userByID = await prisma.cart.findUnique({
+    where: {
+      userId: id,
+    },
+  });
+  if (userByID) {
+    const cartDetailByID = await prisma.cartDetail.findMany({
+      where: {
+        cartId: userByID?.id,
+      },
+      include: {
+        product: true,
+      },
+    });
+    return cartDetailByID;
+  }
+  return [];
+};
+
+export { getProducts, getProductByID, addProductToCart, getCartDetail };

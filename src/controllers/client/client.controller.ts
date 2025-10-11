@@ -1,6 +1,11 @@
+import { log } from "console";
 import e, { Request, Response } from "express";
 import { get } from "http";
-import { addProductToCart, getProductByID } from "services/client/item.service";
+import {
+  addProductToCart,
+  getCartDetail,
+  getProductByID,
+} from "services/client/item.service";
 
 const getProductPage = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -26,7 +31,11 @@ const getCartPage = async (req: Request, res: Response) => {
   if (!user) {
     return res.redirect("/login");
   }
-  return res.render("client/product/cart");
+  const cartDetailByUserIDs = await getCartDetail(user.id);
+
+  return res.render("client/product/cart", {
+    cartDetailByUserIDs: cartDetailByUserIDs,
+  });
 };
 
 export { getProductPage, postAddProductToCart, getCartPage };
