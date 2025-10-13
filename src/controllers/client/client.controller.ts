@@ -6,6 +6,7 @@ import {
   deleteProductInCart,
   getCartDetail,
   getProductByID,
+  updateCartDetailBeforeCheckOut,
 } from "services/client/item.service";
 
 const getProductPage = async (req: Request, res: Response) => {
@@ -56,10 +57,24 @@ const getCheckOutPage = async (req: Request, res: Response) => {
   return res.render("client/product/checkout", { cartDetailByUserIDs });
 };
 
+const postHandleCartToCheckOut = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) {
+    return res.redirect("/login");
+  }
+  const currentCartDetail: { id: string; quantity: string }[] =
+    req.body?.cartDetails ?? [];
+
+  await updateCartDetailBeforeCheckOut(currentCartDetail);
+  log(req.body);
+  return res.redirect("/checkout");
+};
+
 export {
   getProductPage,
   postAddProductToCart,
   getCartPage,
   postDeleteCartDetail,
   getCheckOutPage,
+  postHandleCartToCheckOut,
 };

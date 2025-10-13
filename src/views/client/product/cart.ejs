@@ -69,7 +69,8 @@
               </tr>
             </thead>
             <tbody>
-              <% cartDetailByUserIDs.forEach(function(cartDetailByUserID) { %>
+              <% cartDetailByUserIDs.forEach(function(cartDetailByUserID,index)
+              { %>
 
               <tr>
                 <th scope="row">
@@ -110,6 +111,7 @@
                       value="<%= cartDetailByUserID.quantity %>"
                       data-cart-detail-id="<%=cartDetailByUserID.id %>"
                       data-cart-detail-price="<%=cartDetailByUserID.price %>"
+                      data-cart-detail-index="<%=index%>"
                     />
                     <div class="input-group-btn">
                       <button
@@ -191,7 +193,33 @@
                   currency: 'VND' }).format(totalAmount + shippingFee) %>
                 </p>
               </div>
-              <form action="/checkout" method="get">
+              <form action="/handle-cart-to-checkout" method="post">
+                <div style="display: none">
+                  <% cartDetailByUserIDs.forEach(function(cartDetail, index) {
+                  %>
+                  <div class="mb-3">
+                    <div class="form-group">
+                      <label>Id:</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="<%=cartDetail.id %>"
+                        name="cartDetails[<%= index %>][id]"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label>Quantity:</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        value="<%=cartDetail.quantity %>"
+                        name="cartDetails[<%= index %>][quantity]"
+                        id="cartDetails[<%= index %>]"
+                      />
+                    </div>
+                  </div>
+                  <% }) %>
+                </div>
                 <button
                   class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4"
                   type="submit"

@@ -176,6 +176,11 @@
     const input = button.parent().parent().find("input");
     input.val(newVal);
 
+    //set form index
+    const index = input.attr("data-cart-detail-index");
+    const el = document.getElementById(`cartDetails[${index}]`);
+    $(el).val(newVal);
+
     // LẤY THÔNG TIN SẢN PHẨM VÀ CẬP NHẬT THÀNH TIỀN
     // Lấy giá và ID của sản phẩm từ data-attribute của thẻ input
     const price = input.attr("data-cart-detail-price");
