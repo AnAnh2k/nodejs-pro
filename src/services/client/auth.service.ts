@@ -31,7 +31,7 @@ const registerNewUser = async (
         password: newPassword,
         roleId: userRole.id, // default role is user
         accountType: ACCOUNT_TYPE.SYSTEM,
-        avatar: "default-avatar.png",
+        avatar: "avatar-default.png",
       },
     });
   } else {

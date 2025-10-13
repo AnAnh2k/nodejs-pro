@@ -108,6 +108,8 @@
                       type="text"
                       class="form-control form-control-sm text-center border-0"
                       value="<%= cartDetailByUserID.quantity %>"
+                      data-cart-detail-id="<%=cartDetailByUserID.id %>"
+                      data-cart-detail-price="<%=cartDetailByUserID.price %>"
                     />
                     <div class="input-group-btn">
                       <button
@@ -119,7 +121,10 @@
                   </div>
                 </td>
                 <td>
-                  <p class="mb-0 mt-4">
+                  <p
+                    class="mb-0 mt-4"
+                    data-cart-detail-id="<%=cartDetailByUserID.id %>"
+                  >
                     <%= new Intl.NumberFormat('vi-VN', { style: 'currency',
                     currency: 'VND' }).format(cartDetailByUserID.price *
                     cartDetailByUserID.quantity) %>
@@ -133,7 +138,12 @@
                   </button>
                 </td>
               </tr>
-              <% }) %>
+
+              <% }) %> <%if (user?.sumCart === 0) { %>
+              <tr>
+                <td colspan="6">Chưa có sản phẩm nào trong giỏ hàng</td>
+              </tr>
+              <% } %>
             </tbody>
           </table>
         </div>
@@ -151,7 +161,7 @@
                 </h1>
                 <div class="d-flex justify-content-between mb-4">
                   <h5 class="mb-0 me-4">Tạm tính:</h5>
-                  <p class="mb-0">
+                  <p class="mb-0" data-cart-total-price="<%=totalAmount %>">
                     <%= new Intl.NumberFormat('vi-VN', { style: 'currency',
                     currency: 'VND' }).format(totalAmount) %>
                   </p>
@@ -169,9 +179,9 @@
               <div
                 class="py-4 mb-4 border-top border-bottom d-flex justify-content-between"
               >
-                <h5 class="mb-0 ps-4 me-4">Tổng số tiền</h5>
+                <h5 class="mb-0 ps-4 me-4">Tổng số tiền:</h5>
 
-                <p class="mb-0 pe-4">
+                <p class="mb-0 pe-4" data-cart-total-price="<%=totalAmount %>">
                   <%= new Intl.NumberFormat('vi-VN', { style: 'currency',
                   currency: 'VND' }).format(totalAmount + shippingFee) %>
                 </p>
