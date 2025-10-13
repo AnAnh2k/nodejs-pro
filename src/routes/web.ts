@@ -21,6 +21,7 @@ import {
   getCartPage,
   getProductPage,
   postAddProductToCart,
+  postDeleteCartDetail,
 } from "src/controllers/client/client.controller";
 import {
   getAdminCreateProductPage,
@@ -61,6 +62,7 @@ const webRoute = (app: Express) => {
   // cart
   router.post("/add-product-to-cart/:id", postAddProductToCart);
   router.get("/cart", getCartPage);
+  router.post("/delete-product-in-cart/:id", postDeleteCartDetail);
 
   //admin page
   router.get("/admin", getDashboardPage);

@@ -101,4 +101,38 @@ const getCartDetail = async (id: number) => {
   return [];
 };
 
-export { getProducts, getProductByID, addProductToCart, getCartDetail };
+const deleteProductInCart = async (
+  cartDetailID: number,
+  userID: number,
+  sumCart: number
+) => {
+  const cartDetail = await prisma.cartDetail.delete({
+    where: {
+      id: cartDetailID,
+    },
+  });
+  if (sumCart <= cartDetail.quantity) {
+    //delete cart
+    await prisma.cart.delete({
+      where: { userId: userID },
+    });
+  } else {
+    //update cart
+    await prisma.cart.update({
+      where: { userId: userID },
+      data: {
+        sum: {
+          decrement: cartDetail.quantity,
+        },
+      },
+    });
+  }
+};
+
+export {
+  getProducts,
+  getProductByID,
+  addProductToCart,
+  getCartDetail,
+  deleteProductInCart,
+};

@@ -3,6 +3,7 @@ import e, { Request, Response } from "express";
 import { get } from "http";
 import {
   addProductToCart,
+  deleteProductInCart,
   getCartDetail,
   getProductByID,
 } from "services/client/item.service";
@@ -38,4 +39,19 @@ const getCartPage = async (req: Request, res: Response) => {
   });
 };
 
-export { getProductPage, postAddProductToCart, getCartPage };
+const postDeleteCartDetail = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = req.user;
+  if (!user) {
+    return res.redirect("/login");
+  }
+  await deleteProductInCart(+id, user.id, user.sumCart);
+  return res.redirect("/cart");
+};
+
+export {
+  getProductPage,
+  postAddProductToCart,
+  getCartPage,
+  postDeleteCartDetail,
+};
