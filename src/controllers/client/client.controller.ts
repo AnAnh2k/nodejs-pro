@@ -49,9 +49,17 @@ const postDeleteCartDetail = async (req: Request, res: Response) => {
   return res.redirect("/cart");
 };
 
+const getCheckOutPage = async (req: Request, res: Response) => {
+  const user = req.user;
+  const cartDetailByUserIDs = await getCartDetail(user.id);
+
+  return res.render("client/product/checkout", { cartDetailByUserIDs });
+};
+
 export {
   getProductPage,
   postAddProductToCart,
   getCartPage,
   postDeleteCartDetail,
+  getCheckOutPage,
 };
