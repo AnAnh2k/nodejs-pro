@@ -1,4 +1,5 @@
 import e, { Request, Response } from "express";
+import { getAllOrders } from "services/admin/order.service";
 import { getAllProducts } from "services/admin/product.service";
 import { getAllUsers } from "services/user.service";
 
@@ -21,8 +22,9 @@ const getAdminProductPage = async (req: Request, res: Response) => {
 };
 
 const getAdminOrderPage = async (req: Request, res: Response) => {
+  const orders = await getAllOrders();
   //get user
-  return res.render("admin/order/show");
+  return res.render("admin/order/show", { orders });
 };
 
 export {

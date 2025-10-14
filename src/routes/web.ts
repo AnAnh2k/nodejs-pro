@@ -43,6 +43,7 @@ import {
 } from "controllers/client/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
+import { getViewOrder } from "controllers/admin/order.controller";
 
 const webRoute = (app: Express) => {
   router.get("/", getHomePage);
@@ -88,6 +89,8 @@ const webRoute = (app: Express) => {
     fileUploadMiddlelware("avatar"),
     postUpdateUser
   );
+  router.get("/admin/order", getAdminOrderPage);
+  router.get("/admin/view-order/:id", getViewOrder);
 
   //product
   router.get("/admin/product", getAdminProductPage);
