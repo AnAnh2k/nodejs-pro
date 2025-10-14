@@ -196,6 +196,42 @@ const handlerPlaceOrder = async (
   }
 };
 
+const getOrderDetailByUserID = async (id: number) => {
+  // Bước 1: Lấy tất cả các đơn hàng (order) của người dùng.
+  const orders = await prisma.order.findMany({
+    where: {
+      userId: id,
+    },
+    select: {
+      id: true, // Chỉ lấy trường ID để tối ưu
+    },
+  });
+
+  // Nếu người dùng không có đơn hàng nào, trả về mảng rỗng
+  if (!orders || orders.length === 0) {
+    return [];
+  }
+
+  // Bước 2: Trích xuất các ID từ kết quả trên thành một mảng số đơn giản.
+  // Ví dụ: [10, 11, 15]
+  const orderIds = orders.map((item) => item.id);
+
+  // Bước 3: Tìm tất cả các chi tiết đơn hàng (orderDetail)
+  // có 'orderId' nằm trong mảng 'orderIds'.
+  const orderDetails = await prisma.orderDetail.findMany({
+    where: {
+      orderId: {
+        in: orderIds, // Sử dụng toán tử 'in' của Prisma
+      },
+    },
+    include: {
+      product: true,
+      order: true,
+    },
+  });
+  log("orderDetails", orderDetails);
+  return orderDetails;
+};
 export {
   getProducts,
   getProductByID,
@@ -204,4 +240,5 @@ export {
   deleteProductInCart,
   updateCartDetailBeforeCheckOut,
   handlerPlaceOrder,
+  getOrderDetailByUserID,
 };

@@ -181,6 +181,12 @@
     const el = document.getElementById(`cartDetails[${index}]`);
     $(el).val(newVal);
 
+    //set quantity for detail page
+    const elDetail = document.getElementById(`quantityDetail`);
+    if (elDetail) {
+      $(elDetail).val(newVal);
+    }
+
     // LẤY THÔNG TIN SẢN PHẨM VÀ CẬP NHẬT THÀNH TIỀN
     // Lấy giá và ID của sản phẩm từ data-attribute của thẻ input
     const price = input.attr("data-cart-detail-price");

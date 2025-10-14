@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Đặt Hàng Thành Công - Laptopshop</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="/client/css/style.css" rel="stylesheet" />
+  </head>
+  <style>
+    .table td,
+    .table th {
+      vertical-align: middle;
+    }
+    .order-header {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+  </style>
+  <body>
+    <div
+      id="spinner"
+      class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50 d-flex align-items-center justify-content-center"
+    >
+      <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <%- include('../layout/header'); -%>
+    <div class="py-5"></div>
+
+    <div class="container-fluid py-5">
+      <div class="container py-5">
+        <div class="mb-3">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Lịch Sử Mua Hàng
+              </li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" style="width: 8%">Sản phẩm</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Giá</th>
+                <th scope="col" style="width: 10%">Số lượng</th>
+                <th scope="col">Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% let currentOrderId = null; %> <%
+              orderDetails.forEach(function(detail, index) { %> <% if
+              (detail.order.id !== currentOrderId) { %>
+              <tr class="order-header">
+                <td colspan="2">Mã đơn hàng: #<%= detail.order.id %></td>
+                <td colspan="2">
+                  Tổng tiền: <%= new Intl.NumberFormat('vi-VN', { style:
+                  'currency', currency: 'VND' }).format(detail.order.totalPrice)
+                  %>
+                </td>
+                <td>
+                  <% if (detail.order.status === 'Completed') { %>
+                  <span class="badge bg-success"
+                    ><%= detail.order.status %></span
+                  >
+                  <% } else if (detail.order.status === 'Processing' ||
+                  detail.order.status === 'PENDING') { %>
+                  <span class="badge bg-warning text-dark"
+                    ><%= detail.order.status %></span
+                  >
+                  <% } else { %>
+                  <span class="badge bg-danger"
+                    ><%= detail.order.status %></span
+                  >
+                  <% } %>
+                </td>
+              </tr>
+              <% currentOrderId = detail.order.id; %> <% } %>
+              <tr>
+                <th scope="row">
+                  <img
+                    src="/images/product/<%= detail.product.image %>"
+                    class="img-fluid rounded"
+                    style="width: 60px; height: 60px; object-fit: cover"
+                    alt="<%= detail.product.name %>"
+                  />
+                </th>
+                <td>
+                  <a
+                    href="/product/<%= detail.product.id %>"
+                    class="text-decoration-none"
+                  >
+                    <%= detail.product.name %>
+                  </a>
+                </td>
+                <td>
+                  <%= new Intl.NumberFormat('vi-VN', { style: 'currency',
+                  currency: 'VND' }).format(detail.price) %>
+                </td>
+                <td><%= detail.quantity %></td>
+                <td>
+                  <%= new Intl.NumberFormat('vi-VN', { style: 'currency',
+                  currency: 'VND' }).format(detail.price * detail.quantity) %>
+                </td>
+              </tr>
+              <% }) %> <% if (!orderDetails || orderDetails.length === 0) { %>
+              <tr>
+                <td colspan="5" class="text-center py-5">
+                  Bạn chưa có lịch sử mua hàng.
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <%- include('../layout/footer'); -%>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/client/js/main.js"></script>
+  </body>
+</html>

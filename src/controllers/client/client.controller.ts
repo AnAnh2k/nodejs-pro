@@ -5,6 +5,7 @@ import {
   addProductToCart,
   deleteProductInCart,
   getCartDetail,
+  getOrderDetailByUserID,
   getProductByID,
   handlerPlaceOrder,
   updateCartDetailBeforeCheckOut,
@@ -98,6 +99,16 @@ const getThanksPage = async (req: Request, res: Response) => {
   return res.render("client/product/thanks");
 };
 
+const getOrderHistoryPage = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) {
+    return res.redirect("/login");
+  }
+  const orderDetails = await getOrderDetailByUserID(user.id);
+  log("orderDetails controllers", orderDetails);
+  return res.render("client/order/history", { orderDetails });
+};
+
 export {
   getProductPage,
   postAddProductToCart,
@@ -107,4 +118,5 @@ export {
   postHandleCartToCheckOut,
   postPlaceOrder,
   getThanksPage,
+  getOrderHistoryPage,
 };

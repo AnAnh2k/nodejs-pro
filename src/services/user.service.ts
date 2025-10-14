@@ -65,10 +65,19 @@ const handelDeleteUser = async (id: string) => {
   return userDelete;
 };
 
-const getUserByID = async (id: string) => {
+const getUserByID = async (id: number) => {
   const userByID = await prisma.user.findUnique({
     where: {
-      id: parseInt(id, 10),
+      id: id,
+    },
+  });
+  return userByID;
+};
+
+const getUserByIDClient = async (id: number) => {
+  const userByID = await prisma.user.findUnique({
+    where: {
+      id: id,
     },
   });
   return userByID;
@@ -112,4 +121,5 @@ export {
   getAllRole,
   hashPassword,
   comparePassword,
+  getUserByIDClient,
 };

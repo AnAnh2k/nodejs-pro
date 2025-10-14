@@ -7,6 +7,8 @@ import {
   postDeleteUser,
   getViewUser,
   postUpdateUser,
+  getUserClient,
+  postUpdateUserClient,
 } from "../controllers/user.controller";
 import { log } from "console";
 import { get } from "http";
@@ -20,6 +22,7 @@ import fileUploadMiddlelware from "src/middleware/multer";
 import {
   getCartPage,
   getCheckOutPage,
+  getOrderHistoryPage,
   getProductPage,
   getThanksPage,
   postAddProductToCart,
@@ -30,6 +33,7 @@ import {
 import {
   getAdminCreateProductPage,
   getViewProduct,
+  postAddToCartFromDetailPage,
   postAdminCreateProductPage,
   postDeleteProduct,
   postUpdateProduct,
@@ -62,6 +66,14 @@ const webRoute = (app: Express) => {
       failureMessage: true,
     })
   );
+  //user
+  router.get("/user", getUserClient);
+  router.post(
+    "/update-user/:id",
+    fileUploadMiddlelware("avatar"),
+    postUpdateUserClient
+  );
+
   router.post("/register", postRegisterPage);
   router.post("/logout", postLogout);
   // cart
@@ -72,6 +84,10 @@ const webRoute = (app: Express) => {
   router.get("/checkout", getCheckOutPage);
   router.post("/place-order", postPlaceOrder);
   router.get("/thanks", getThanksPage);
+  router.post("/add-to-cart-from-detail-page/:id", postAddToCartFromDetailPage);
+
+  //order-history
+  router.get("/order-history", getOrderHistoryPage);
 
   //admin page
   router.get("/admin", getDashboardPage);
@@ -89,6 +105,7 @@ const webRoute = (app: Express) => {
     fileUploadMiddlelware("avatar"),
     postUpdateUser
   );
+  //order
   router.get("/admin/order", getAdminOrderPage);
   router.get("/admin/view-order/:id", getViewOrder);
 

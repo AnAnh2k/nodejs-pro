@@ -6,6 +6,7 @@ import {
   getUserByID,
   updateUserByID,
   getAllRole,
+  getUserByIDClient,
 } from "services/user.service"; // <-- Sửa lại đường dẫn này
 import { log } from "console";
 import { get } from "http";
@@ -50,10 +51,19 @@ const postDeleteUser = async (req: Request, res: Response) => {
 const getViewUser = async (req: Request, res: Response) => {
   const { id } = req.params;
   const roles = await getAllRole();
-  const user = await getUserByID(id);
+  const user = await getUserByID(+id);
 
   return res.render("admin/user/view", { user: user, roles: roles }); // hoặc res.status(400).send("Missing user id");
 };
+
+const getUserClient = async (req: Request, res: Response) => {
+  const { id } = req.user;
+  const roles = await getAllRole();
+  const user = await getUserByIDClient(+id);
+
+  return res.render("client/user/view", { user: user, roles: roles }); // hoặc res.status(400).send("Missing user id");
+};
+
 const postUpdateUser = async (req: Request, res: Response) => {
   const { id, fullName, phone, role, address } = req.body;
   log("Update user id:", req.body);
@@ -74,6 +84,26 @@ const postUpdateUser = async (req: Request, res: Response) => {
   return res.redirect("/admin/user");
 };
 
+const postUpdateUserClient = async (req: Request, res: Response) => {
+  const { id, fullName, phone, role, address } = req.body;
+  log("Update user id:", req.body);
+  //update user by id
+  const file = req.file;
+  const avatar = file?.filename;
+  log("Update user avatar:", avatar);
+  const a = await updateUserByID(
+    id,
+    fullName,
+
+    phone,
+    role,
+    address,
+    avatar
+  );
+  log("Update user:", a);
+  return res.redirect("/user");
+};
+
 export {
   getHomePage,
   getCreateUserPage,
@@ -81,4 +111,6 @@ export {
   postDeleteUser,
   getViewUser,
   postUpdateUser,
+  getUserClient,
+  postUpdateUserClient,
 };

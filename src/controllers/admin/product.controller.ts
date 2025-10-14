@@ -6,6 +6,7 @@ import {
   handleCreateProduct,
   updateProductByID,
 } from "services/admin/product.service";
+import { addProductToCart } from "services/client/item.service";
 import { ProductSchema, TProductSchema } from "src/validation/product.schema";
 
 const getAdminCreateProductPage = (req, res) => {
@@ -162,10 +163,22 @@ const postDeleteProduct = async (req: Request, res: Response) => {
   return res.redirect("/admin/product");
 };
 
+const postAddToCartFromDetailPage = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+  const user = req.user;
+  if (!user) {
+    return res.redirect("/login");
+  }
+  await addProductToCart(+quantity, +id, user);
+  return res.redirect(`/product/${id}`);
+};
+
 export {
   getAdminCreateProductPage,
   postAdminCreateProductPage,
   getViewProduct,
   postUpdateProduct,
   postDeleteProduct,
+  postAddToCartFromDetailPage,
 };

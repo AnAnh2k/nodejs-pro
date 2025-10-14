@@ -1,12 +1,13 @@
 import e, { Request, Response } from "express";
+import { getDashBoardInfo } from "services/admin/dashboard.service";
 import { getAllOrders } from "services/admin/order.service";
 import { getAllProducts } from "services/admin/product.service";
 import { getAllUsers } from "services/user.service";
 
 const getDashboardPage = async (req: Request, res: Response) => {
   //get user
-
-  return res.render("admin/dashboard/show");
+  const info = await getDashBoardInfo();
+  return res.render("admin/dashboard/show", { info });
 };
 
 const getAdminUserPage = async (req: Request, res: Response) => {
