@@ -15,7 +15,8 @@ import { getProducts } from "services/client/item.service";
 const getHomePage = async (req: Request, res: Response) => {
   const products = await getProducts();
   const user = req.user;
-  log("User in session:", user);
+  const { page } = req.query;
+  log("current query:", req.query);
   return res.render("client/home/show", { products: products, user: user });
 };
 
