@@ -2,7 +2,7 @@ import e, { Request, Response } from "express";
 import { getDashBoardInfo } from "services/admin/dashboard.service";
 import { getAllOrders } from "services/admin/order.service";
 import { getAllProducts } from "services/admin/product.service";
-import { getAllUsers } from "services/user.service";
+import { countToTalUserPages, getAllUsers } from "services/user.service";
 
 const getDashboardPage = async (req: Request, res: Response) => {
   //get user
@@ -17,8 +17,13 @@ const getAdminUserPage = async (req: Request, res: Response) => {
   if (currentPage <= 0) {
     currentPage = 1;
   }
+  const totalPages = await countToTalUserPages();
   const users = await getAllUsers(currentPage);
-  return res.render("admin/user/show", { users: users });
+  return res.render("admin/user/show", {
+    users: users,
+    totalPages: +totalPages,
+    page: +currentPage,
+  });
 };
 
 const getAdminProductPage = async (req: Request, res: Response) => {
