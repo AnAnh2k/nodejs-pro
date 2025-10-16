@@ -9,6 +9,7 @@ import {
   postUpdateUser,
   getUserClient,
   postUpdateUserClient,
+  getProductFilterPage,
 } from "../controllers/user.controller";
 import { log } from "console";
 import { get } from "http";
@@ -51,6 +52,7 @@ import { getViewOrder } from "controllers/admin/order.controller";
 
 const webRoute = (app: Express) => {
   router.get("/", getHomePage);
+  router.get("/products", getProductFilterPage);
   router.get("/success-redirect", getSuccessRedirectPage);
 
   //client page

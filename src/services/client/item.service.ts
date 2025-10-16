@@ -1,10 +1,25 @@
 import { log } from "console";
 import { Cart } from "./../../../node_modules/.prisma/client/index.d";
 import { prisma } from "config/client";
+import {
+  TOTAL_ITEMs_PER_client_PAGE,
+  TOTAL_ITEMs_PER_PAGE,
+} from "config/constant";
 
-const getProducts = async () => {
-  const product = await prisma.product.findMany();
+const getProducts = async (page: number, pageSize: number) => {
+  const skip = (page - 1) * pageSize;
+  const product = await prisma.product.findMany({
+    take: pageSize,
+    skip: skip,
+  });
   return product;
+};
+
+const countToTalProductCLientPages = async (pageSize: number) => {
+  const totalItems = await prisma.product.count();
+  const totalPages = Math.ceil(totalItems / pageSize);
+
+  return totalPages;
 };
 
 const getProductByID = async (id: number) => {
@@ -289,4 +304,5 @@ export {
   updateCartDetailBeforeCheckOut,
   handlerPlaceOrder,
   getOrderDetailByUserID,
+  countToTalProductCLientPages,
 };
