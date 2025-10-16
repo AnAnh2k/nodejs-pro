@@ -4,4 +4,4 @@ export const ACCOUNT_TYPE = {
   GITHUB: "GITHUB",
 };
 
-export const TOTAL_ITEMs_PER_PAGE = 4;
+export const TOTAL_ITEMs_PER_PAGE = 5;
