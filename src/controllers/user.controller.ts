@@ -50,11 +50,11 @@ const getProductFilterPage = async (req: Request, res: Response) => {
   }
   const totalPages = await countToTalProductCLientPages(6);
   const products = await getProducts(currentPage, 6);
-  // return res.render("client/product/filter", {
-  //   products: products,
-  //   totalPages: +totalPages,
-  //   page: +currentPage,
-  // });
+  return res.render("client/product/filter", {
+    products: products,
+    totalPages: +totalPages,
+    page: +currentPage,
+  });
 
   // --- Lọc User theo username ---
   // URL ví dụ: /users?username=admin
@@ -112,9 +112,9 @@ const getProductFilterPage = async (req: Request, res: Response) => {
   // --- YC 7: Sắp xếp (sort) ---
   // URL ví dụ: /products?sort=price,asc
   //
-  const { sort } = req.query;
-  const productsSorted = await productSortv1(sort as string);
-  res.status(200).json({ data: productsSorted });
+  // const { sort } = req.query;
+  // const productsSorted = await productSortv1(sort as string);
+  // res.status(200).json({ data: productsSorted });
 };
 
 const getCreateUserPage = async (req: Request, res: Response) => {
