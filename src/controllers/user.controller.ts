@@ -14,6 +14,16 @@ import {
   countToTalProductCLientPages,
   getProducts,
 } from "services/client/item.service";
+import {
+  productFilterFactories,
+  productFilterFactory,
+  productFilterMax,
+  productFilterMin,
+  productFilterPricev1,
+  productFilterPricev2,
+  productSortv1,
+  userFilter,
+} from "services/client/product.filter";
 
 const getHomePage = async (req: Request, res: Response) => {
   const user = req.user;
@@ -40,11 +50,71 @@ const getProductFilterPage = async (req: Request, res: Response) => {
   }
   const totalPages = await countToTalProductCLientPages(6);
   const products = await getProducts(currentPage, 6);
-  return res.render("client/product/filter", {
-    products: products,
-    totalPages: +totalPages,
-    page: +currentPage,
-  });
+  // return res.render("client/product/filter", {
+  //   products: products,
+  //   totalPages: +totalPages,
+  //   page: +currentPage,
+  // });
+
+  // --- Lọc User theo username ---
+  // URL ví dụ: /users?username=admin
+  //
+  // const { username } = req.query;
+  // const users = await userFilter(username as string);
+  // res.json(users);
+
+  //================================================================
+  // TRONG CONTROLLER XỬ LÝ PRODUCT (ví dụ: /products)
+  //================================================================
+
+  // --- YC 1: Lọc giá thấp nhất (minPrice) ---
+  // URL ví dụ: /products?minPrice=15000000
+  //
+  // const { minPrice } = req.query;
+  // const productsMin = await productFilterMin(Number(minPrice));
+  // res.status(200).json({ data: productsMin });
+
+  // --- YC 2: Lọc giá cao nhất (maxPrice) ---
+  // URL ví dụ: /products?maxPrice=15000000
+  //
+  // const { maxPrice } = req.query;
+  // const productsMax = await productFilterMax(Number(maxPrice));
+  // res.status(200).json({ data: productsMax });
+
+  // --- YC 3: Lọc theo 1 nhà sản xuất (factory) ---
+  // URL ví dụ: /products?factory=APPLE
+  //
+  // const { factory } = req.query;
+  // const productsFactory = await productFilterFactory(factory as string);
+  // res.status(200).json({ data: productsFactory });
+
+  // --- YC 4: Lọc theo nhiều nhà sản xuất (factories) ---
+  // URL ví dụ: /products?factories=APPLE,DELL
+  //
+  // const { factories } = req.query;
+  // const productsFactories = await productFilterFactories(factories as string);
+  // res.status(200).json({ data: productsFactories });
+
+  // --- YC 5: Lọc theo 1 khoảng giá (price) ---
+  // URL ví dụ: /products?price=10-toi-20-trieu
+  //
+  // const { price } = req.query;
+  // const productsPriceV1 = await productFilterPricev1(price as string);
+  // res.status(200).json({ data: productsPriceV1 });
+
+  // --- YC 6: Lọc theo nhiều khoảng giá (price) ---
+  // URL ví dụ: /products?price=10-toi-20-trieu,30-toi-40-trieu
+  //
+  // const { price } = req.query; // (Trùng tên param với YC5, chỉ để ví dụ)
+  // const productsPriceV2 = await productFilterPricev2(price as string);
+  // res.status(200).json({ data: productsPriceV2 });
+
+  // --- YC 7: Sắp xếp (sort) ---
+  // URL ví dụ: /products?sort=price,asc
+  //
+  const { sort } = req.query;
+  const productsSorted = await productSortv1(sort as string);
+  res.status(200).json({ data: productsSorted });
 };
 
 const getCreateUserPage = async (req: Request, res: Response) => {
