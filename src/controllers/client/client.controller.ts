@@ -27,7 +27,9 @@ const postAddProductToCart = async (req: Request, res: Response) => {
     return res.redirect("/login");
   }
 
-  return res.redirect("/");
+  // THAY ĐỔI TỪ: return res.redirect("/");
+  // THÀNH:
+  return res.redirect("back");
 };
 
 const getCartPage = async (req: Request, res: Response) => {

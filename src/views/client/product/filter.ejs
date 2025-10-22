@@ -349,8 +349,7 @@
                     </div>
                   </div>
                 </div>
-                <% }) %>
-
+                <% }) %> <% if(products?.lenght) { %>
                 <div class="pagination d-flex justify-content-center mt-5">
                   <li
                     class="<%= page === 1 ? 'disabled page-item' : 'page-item' %>"
@@ -385,6 +384,10 @@
                     </a>
                   </li>
                 </div>
+
+                <% } else { %>
+                <div>Không tồn tại sản phẩm</div>
+                <% } %>
               </div>
             </div>
           </div>
