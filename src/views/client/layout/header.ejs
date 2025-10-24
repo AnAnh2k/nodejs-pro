@@ -53,6 +53,7 @@
             <span
               class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
               style="top: -5px; left: 15px; height: 20px; min-width: 20px"
+              id="sumCart"
               ><%= user?.sumCart ?? 0 %></span
             >
           </a>
@@ -137,7 +138,9 @@
               class="dropdown-menu dropdown-menu-end p-1"
               aria-labelledby="dropdownMenuLink"
             >
-              <li><a class="dropdown-item" href="/login">Đăng nhập</a></li>
+              <li>
+                <a class="dropdown-item a-login" href="/login">Đăng nhập</a>
+              </li>
               <li><a class="dropdown-item" href="/register">Đăng kí</a></li>
             </ul>
           </div>

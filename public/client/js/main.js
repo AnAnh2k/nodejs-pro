@@ -354,4 +354,91 @@
       true
     );
   }
+
+  /////////////////////
+  //handle add to cart with ajax
+  $(".btnAddToCartHomepage").click(function (event) {
+    event.preventDefault();
+
+    if (!isLogin()) {
+      $.toast({
+        heading: "Lỗi thao tác",
+        text: "Bạn cần đăng nhập tài khoản",
+        position: "top-right",
+        icon: "error",
+      });
+      return;
+    }
+
+    const productId = $(this).attr("data-product-id");
+
+    $.ajax({
+      url: `${window.location.origin}/api/add-product-to-cart`,
+      type: "POST",
+      data: JSON.stringify({ quantity: 1, productId: productId }),
+      contentType: "application/json",
+
+      success: function (response) {
+        const sum = +response.data;
+        $("#sumCart").text(sum);
+        $.toast({
+          heading: "Giỏ hàng",
+          text: "Thêm sản phẩm vào giỏ hàng thành công",
+          position: "top-right",
+          icon: "success",
+        });
+      },
+      error: function (response) {
+        alert("Có lỗi xảy ra, vui lòng check lại code.");
+        console.log("error: ", response);
+      },
+    });
+  });
+  $(".btnAddToCartDetail").click(function (event) {
+    event.preventDefault();
+
+    if (!isLogin()) {
+      $.toast({
+        heading: "Lỗi thao tác",
+        text: "Bạn cần đăng nhập tài khoản",
+        posotion: "top-right",
+        icon: "error",
+      });
+      return;
+    }
+
+    const productId = $(this).attr("data-product-id");
+    const quantity = $("#quantityDetail").val();
+
+    $.ajax({
+      url: `${window.location.origin}/api/add-product-to-cart`,
+      type: "POST",
+      data: JSON.stringify({ quantity: quantity, productId: productId }),
+      contentType: "application/json",
+
+      success: function (response) {
+        const sum = +reponse.data;
+        $("#sumCart").text(sum);
+        $.toast({
+          heading: "Giỏ hàng",
+          text: "Thêm sản phẩm vào giỏ hàng thành công",
+          position: "top-right",
+          icon: "success",
+        });
+      },
+      error: function (response) {
+        alert("Có lỗi xảy ra, vui lòng check lại code.");
+        console.log("error: ", response);
+      },
+    });
+  });
+
+  function isLogin() {
+    const navElement = $("#navbarCollapse");
+    const childLogin = navElement.find("a.a-login");
+    if (childLogin.length > 0) {
+      return false;
+    }
+    return true;
+  }
 })(jQuery);
