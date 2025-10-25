@@ -394,6 +394,7 @@
       },
     });
   });
+
   $(".btnAddToCartDetail").click(function (event) {
     event.preventDefault();
 
@@ -417,7 +418,7 @@
       contentType: "application/json",
 
       success: function (response) {
-        const sum = +reponse.data;
+        const sum = +response.data;
         $("#sumCart").text(sum);
         $.toast({
           heading: "Giỏ hàng",
