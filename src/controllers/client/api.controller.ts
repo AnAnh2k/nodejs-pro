@@ -3,6 +3,7 @@ import { addProductToCart } from "services/client/item.service";
 import {
   handleGetAllUsersApi,
   handleGetUserByIdsApi,
+  handleUpdateUserByIdsApi,
 } from "services/client/api.service";
 import { log } from "console";
 import {
@@ -65,9 +66,23 @@ const createUserAPI = async (req: Request, res: Response) => {
   return;
 };
 
+const updateUserById = async (req: Request, res: Response) => {
+  const { fullName, address, phone } = req.body;
+  const { id } = req.params;
+
+  //success
+  await handleUpdateUserByIdsApi(+id, fullName, address, phone);
+
+  res.status(200).json({
+    data: "update user success",
+  });
+  return;
+};
+
 export {
   postAddProductToCartAPI,
   getAllUsersAPI,
   getUsersByIdAPI,
   createUserAPI,
+  updateUserById,
 };
