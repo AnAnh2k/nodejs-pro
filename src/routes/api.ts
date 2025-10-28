@@ -1,4 +1,5 @@
 import {
+  createUserAPI,
   getAllUsersAPI,
   getUsersByIdAPI,
   postAddProductToCartAPI,
@@ -13,6 +14,8 @@ const apiRoutes = (app: Express) => {
   router.post("/add-product-to-cart", postAddProductToCartAPI);
   router.get("/users", getAllUsersAPI);
   router.get("/users/:id", getUsersByIdAPI);
+
+  router.post("/users", createUserAPI);
 
   app.use("/api", router);
 };

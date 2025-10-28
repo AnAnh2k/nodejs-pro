@@ -5,6 +5,11 @@ import {
   handleGetUserByIdsApi,
 } from "services/client/api.service";
 import { log } from "console";
+import {
+  RegisterSchema,
+  TRegisterSchema,
+} from "src/validation/register.schema";
+import { registerNewUser } from "services/client/auth.service";
 
 const postAddProductToCartAPI = async (req: Request, res: Response) => {
   const { quantity, productId } = req.body;
@@ -35,4 +40,34 @@ const getUsersByIdAPI = async (req: Request, res: Response) => {
   });
 };
 
-export { postAddProductToCartAPI, getAllUsersAPI, getUsersByIdAPI };
+const createUserAPI = async (req: Request, res: Response) => {
+  const { fullName, username, password, confirmPassword } =
+    req.body as TRegisterSchema;
+  const validate = await RegisterSchema.safeParseAsync(req.body);
+  if (!validate.success) {
+    //error
+    const errorsZod = validate.error.issues;
+    const errors = errorsZod?.map(
+      (item) => `${item.message} (${item.path[0]})`
+    );
+
+    res.status(400).json({
+      errors: errors,
+    });
+    return;
+  }
+  //success
+  await registerNewUser(fullName, username, password);
+
+  res.status(201).json({
+    data: "create user success",
+  });
+  return;
+};
+
+export {
+  postAddProductToCartAPI,
+  getAllUsersAPI,
+  getUsersByIdAPI,
+  createUserAPI,
+};
