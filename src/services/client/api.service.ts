@@ -34,8 +34,17 @@ const handleUpdateUserByIdsApi = async (
   return allUer;
 };
 
+const handleDeleteUserByIdsApi = async (id: number) => {
+  return await prisma.user.delete({
+    where: {
+      id: id,
+    },
+  });
+};
+
 export {
   handleGetAllUsersApi,
   handleGetUserByIdsApi,
   handleUpdateUserByIdsApi,
+  handleDeleteUserByIdsApi,
 };

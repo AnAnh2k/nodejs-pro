@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { addProductToCart } from "services/client/item.service";
 import {
+  handleDeleteUserByIdsApi,
   handleGetAllUsersApi,
   handleGetUserByIdsApi,
   handleUpdateUserByIdsApi,
@@ -79,10 +80,23 @@ const updateUserById = async (req: Request, res: Response) => {
   return;
 };
 
+const deleteUserById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  //success
+  await handleDeleteUserByIdsApi(+id);
+
+  res.status(200).json({
+    data: "delete user success",
+  });
+  return;
+};
+
 export {
   postAddProductToCartAPI,
   getAllUsersAPI,
   getUsersByIdAPI,
   createUserAPI,
   updateUserById,
+  deleteUserById,
 };
