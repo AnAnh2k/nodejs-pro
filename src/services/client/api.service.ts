@@ -1,5 +1,7 @@
 import { prisma } from "config/client";
 import { Request, Response } from "express";
+import { comparePassword } from "services/user.service";
+import jwt from "jsonwebtoken";
 
 const handleGetAllUsersApi = async () => {
   const allUer = await prisma.user.findMany();
@@ -42,9 +44,36 @@ const handleDeleteUserByIdsApi = async (id: number) => {
   });
 };
 
+const handleUserLogin = async (username: string, password: string) => {
+  const user = await prisma.user.findUnique({
+    where: { username: username },
+  });
+  //check password
+  if (!user) {
+    throw new Error(`Username not found: ${username}`);
+  }
+  //compare password
+  const isMatch = await comparePassword(password, (await user).password);
+  if (!isMatch) {
+    throw new Error("Password is incorrect");
+  }
+
+  //có user login => định nghĩa access token
+  const payload = {
+    id: 1,
+    name: "anducanh",
+  };
+  const access_token = jwt.sign(payload, "ducanh", {
+    expiresIn: "1d",
+  });
+
+  return access_token;
+};
+
 export {
   handleGetAllUsersApi,
   handleGetUserByIdsApi,
   handleUpdateUserByIdsApi,
   handleDeleteUserByIdsApi,
+  handleUserLogin,
 };

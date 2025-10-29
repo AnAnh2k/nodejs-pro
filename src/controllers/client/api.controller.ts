@@ -5,6 +5,7 @@ import {
   handleGetAllUsersApi,
   handleGetUserByIdsApi,
   handleUpdateUserByIdsApi,
+  handleUserLogin,
 } from "services/client/api.service";
 import { log } from "console";
 import {
@@ -92,6 +93,25 @@ const deleteUserById = async (req: Request, res: Response) => {
   return;
 };
 
+const loginAPI = async (req: Request, res: Response) => {
+  const { username, password } = req.body;
+
+  try {
+    const access_token = await handleUserLogin(username, password);
+    res.status(200).json({
+      data: {
+        access_token,
+      },
+    });
+  } catch (error) {
+    log(error);
+    res.status(401).json({
+      data: null,
+      message: error.message,
+    });
+  }
+};
+
 export {
   postAddProductToCartAPI,
   getAllUsersAPI,
@@ -99,4 +119,5 @@ export {
   createUserAPI,
   updateUserById,
   deleteUserById,
+  loginAPI,
 };
