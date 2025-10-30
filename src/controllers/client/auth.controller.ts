@@ -27,7 +27,7 @@ const getLoginPage = async (req: Request, res: Response) => {
 };
 
 const postRegisterPage = async (req: Request, res: Response) => {
-  const { fullName, username, password, confirmPassword } =
+  const { fullName, email, password, confirmPassword } =
     req.body as TRegisterSchema;
   const validate = await RegisterSchema.safeParseAsync(req.body);
   if (!validate.success) {
@@ -39,7 +39,7 @@ const postRegisterPage = async (req: Request, res: Response) => {
 
     const oldData = {
       fullName,
-      username,
+      email,
       password,
       confirmPassword,
     };
@@ -50,7 +50,7 @@ const postRegisterPage = async (req: Request, res: Response) => {
     });
   }
   //success
-  await registerNewUser(fullName, username, password);
+  await registerNewUser(fullName, email, password);
 
   return res.redirect("/login");
 };

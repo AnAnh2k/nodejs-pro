@@ -35,7 +35,7 @@ const emailSchema = z
 export const RegisterSchema = z
   .object({
     fullName: z.string().trim().min(1, { message: "Tên không được để trống" }),
-    username: emailSchema,
+    email: emailSchema,
     password: passwordSchema,
     confirmPassword: z.string(),
   })

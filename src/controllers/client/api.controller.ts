@@ -46,7 +46,7 @@ const getUsersByIdAPI = async (req: Request, res: Response) => {
 };
 
 const createUserAPI = async (req: Request, res: Response) => {
-  const { fullName, username, password, confirmPassword } =
+  const { fullName, email, password, confirmPassword } =
     req.body as TRegisterSchema;
   const validate = await RegisterSchema.safeParseAsync(req.body);
   if (!validate.success) {
@@ -62,7 +62,7 @@ const createUserAPI = async (req: Request, res: Response) => {
     return;
   }
   //success
-  await registerNewUser(fullName, username, password);
+  await registerNewUser(fullName, email, password);
 
   res.status(201).json({
     data: "create user success",
