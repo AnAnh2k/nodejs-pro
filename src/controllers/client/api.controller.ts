@@ -29,6 +29,8 @@ const postAddProductToCartAPI = async (req: Request, res: Response) => {
 
 const getAllUsersAPI = async (req: Request, res: Response) => {
   const data = await handleGetAllUsersApi();
+  const user = req.user;
+  log("user login: ", user);
   res.status(200).json({
     data: data,
   });
@@ -112,6 +114,15 @@ const loginAPI = async (req: Request, res: Response) => {
   }
 };
 
+const fetchAccountApi = async (req: Request, res: Response) => {
+  const user = req.user;
+  res.status(200).json({
+    data: {
+      user,
+    },
+  });
+};
+
 export {
   postAddProductToCartAPI,
   getAllUsersAPI,
@@ -120,4 +131,5 @@ export {
   updateUserById,
   deleteUserById,
   loginAPI,
+  fetchAccountApi,
 };

@@ -1,6 +1,7 @@
 import {
   createUserAPI,
   deleteUserById,
+  fetchAccountApi,
   getAllUsersAPI,
   getUsersByIdAPI,
   loginAPI,
@@ -16,7 +17,7 @@ const router = express.Router();
 
 const apiRoutes = (app: Express) => {
   router.post("/add-product-to-cart", postAddProductToCartAPI);
-  router.get("/users", checkValidJWT, getAllUsersAPI);
+  router.get("/users", getAllUsersAPI);
   router.get("/users/:id", getUsersByIdAPI);
 
   router.post("/users", createUserAPI);
@@ -26,7 +27,9 @@ const apiRoutes = (app: Express) => {
 
   router.post("/login", loginAPI);
 
-  app.use("/api", router);
+  router.get("/account", fetchAccountApi);
+
+  app.use("/api", checkValidJWT, router);
 };
 
 export default apiRoutes;
